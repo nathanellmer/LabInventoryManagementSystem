@@ -1,0 +1,21 @@
+QLabel[role="std_form_lbl"] {
+    color: #2B2B2B;
+    font-size: 16px;
+    min-width: 120px;
+}
+
+QLineEdit[role="std_form_txt"] {
+    color: #2B2B2B;
+    font-size: 16px;
+    padding: 5px 5px;
+    max-width: 250px;
+    min-width: 200px;
+}
+
+QLineEdit[role="wide_form_txt"] {
+    color: #2B2B2B;
+    font-size: 16px;
+    padding: 5px 5px;
+    max-width: 350px;
+    min-width: 300px;
+}
