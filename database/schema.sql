@@ -30,7 +30,7 @@ CREATE TABLE GrantCodes (
 -- Locations table
 CREATE TABLE StorageLocations (
     LocationID INTEGER PRIMARY KEY AUTOINCREMENT,
-    LocationName TEXT NOT NULL
+    LocationName TEXT NOT NULL UNIQUE
 );
 
 -- Items table

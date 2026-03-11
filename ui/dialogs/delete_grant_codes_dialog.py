@@ -9,52 +9,53 @@ from ui.dialogs.choice_selection_dialog import ChoiceSelectionDialogTwo
 from ui.dialogs.msg_dialog import MsgDialog
 from core.control_functions import controller
 from core.db_get_functions import get_grant_code_info_by_grant_code_name, get_grant_code_info_by_grant_code_owner
-from core.db_update_functions import update_grant_code_in_db
+from core.db_delete_functions import delete_grant_code_from_db
 
-class UpdateGrantCodesDialog(QDialog):
+
+class DeleteGrantCodesDialog(QDialog):
     def __init__(self):
         super().__init__()
 
         # Set the window size and title
         self.resize(500, 400)
-        self.setWindowTitle("Update Grant Code in Database")
+        self.setWindowTitle("Delete Grant Code from Database")
 
-        # Initialise the UpdateGrantCodesDialog layout and its margins (left, top, right, bottom)
-        upd_grant_code_dialog_layout = QVBoxLayout()
-        upd_grant_code_dialog_layout.setContentsMargins(20, 20, 20, 20)
+        # Initialise the DeleteGrantCodesDialog layout and its margins (left, top, right, bottom)
+        del_grant_code_dialog_layout = QVBoxLayout()
+        del_grant_code_dialog_layout.setContentsMargins(20, 20, 20, 20)
 
-        # Add the header widget to the update grant code dialog layout
-        upd_grant_code_dialog_layout.addWidget(FormHeaderWidget("Update Grant Code Information:"))
+        # Add the header widget to the delete grant code dialog layout
+        del_grant_code_dialog_layout.addWidget(FormHeaderWidget("Delete Grant Code Information:"))
 
         # Add stretch
-        upd_grant_code_dialog_layout.addStretch()
+        del_grant_code_dialog_layout.addStretch()
 
         # Add a search panel
         self.search_panel = FormSearchPanelWidget("Search for a grant code:", "Grant Code / Owner:", self.btn_search)
-        upd_grant_code_dialog_layout.addWidget(self.search_panel)
+        del_grant_code_dialog_layout.addWidget(self.search_panel)
 
         # Add stretch
-        upd_grant_code_dialog_layout.addStretch()
+        del_grant_code_dialog_layout.addStretch()
 
-        # Add the grant code panel widget to the update grant code dialog layout
+        # Add the grant code panel widget to the delete grant code dialog layout
         self.grant_code_form = GrantCodesPanelWidget()
-        upd_grant_code_dialog_layout.addWidget(self.grant_code_form, alignment=Qt.AlignCenter)
+        del_grant_code_dialog_layout.addWidget(self.grant_code_form, alignment=Qt.AlignCenter)
 
         # Add spacing
-        upd_grant_code_dialog_layout.addSpacing(10)
+        del_grant_code_dialog_layout.addSpacing(10)
 
         # Add a proceed button
-        upd_grant_code_dialog_layout.addWidget(MainMenuButton("Proceed", self.btn_proceed), alignment=Qt.AlignCenter)
+        del_grant_code_dialog_layout.addWidget(MainMenuButton("Proceed", self.btn_proceed), alignment=Qt.AlignCenter)
 
         # Add stretch
-        upd_grant_code_dialog_layout.addStretch()
+        del_grant_code_dialog_layout.addStretch()
 
-        # Add the universal footer widget to the update grant code dialog layout
+        # Add the universal footer widget to the delete grant code dialog layout
         controller.close_all_windows.connect(self.close)
-        upd_grant_code_dialog_layout.addWidget(FormFooterWidget())
+        del_grant_code_dialog_layout.addWidget(FormFooterWidget())
 
         # Set the main layout for the window
-        self.setLayout(upd_grant_code_dialog_layout)
+        self.setLayout(del_grant_code_dialog_layout)
         
 
     def btn_search(self):
@@ -87,25 +88,9 @@ class UpdateGrantCodesDialog(QDialog):
 
 
     def btn_proceed(self):
-        field_values = [self.grant_code_id]
-        complete_flag = True
+        # Gather the data from the form
+        grant_code_id = self.grant_code_id
 
-        for field in self.grant_code_form.findChildren(FormLabelTextWidget):
-            if field.txt.text() == "":
-                # If field is empty
-                complete_flag = False
-            else:
-                # Otherwise add the field value to the list
-                field_values.append(field.txt.text())
-
-        if complete_flag:
-            # Update the new grant code in the database
-            dialog_close = update_grant_code_in_db(field_values)
-
-            # Close the dialog
-            if dialog_close:
-                self.close()
-        else:
-            # If any field is empty, show an error message
-            msg_dialog = MsgDialog("Input Error", "Please fill in all fields.", "OK")
-            msg_dialog.exec_()
+        # Delete the grant code from the database
+        delete_grant_code_from_db(grant_code_id)
+        self.close()

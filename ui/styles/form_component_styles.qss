@@ -19,3 +19,14 @@ QLineEdit[role="wide_form_txt"] {
     max-width: 350px;
     min-width: 300px;
 }
+
+QComboBox[role="wide_form_cmb"] {
+    background-color: #FFFFFF;
+    color: #2B2B2B;
+    padding: 6px 12px;
+    border: 2px solid #2B2B2B;
+    border-radius: 8px;
+    font-size: 16px;
+    max-width: 350px;
+    min-width: 300px;
+}

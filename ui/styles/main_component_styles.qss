@@ -27,7 +27,7 @@ QPushButton[role="universal_close_btn"] {
     max-width: 150px;
 }
 
-QPushButton[role="universal_close_btn"]:hover {
+QPushButton[role="universal_close_btn"]::hover {
     background-color: #FFFFFF;
     color: #FF0000;
     border: 2px solid #FF0000;
@@ -44,7 +44,7 @@ QPushButton[role="universal_btn"] {
     width: 200px;
 }
 
-QPushButton[role="universal_btn"]:hover {
+QPushButton[role="universal_btn"]::hover {
     background-color: #242F60;
     color: #FFFFFF;
     border: 1px solid #FFFFFF;

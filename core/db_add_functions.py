@@ -91,3 +91,33 @@ def add_grant_code_to_db(field_values):
     conn.close()
 
     return dialog_close
+
+
+# Add a new storage location to the database
+def add_storage_location_to_db(field_values):
+    # Setup connection
+    conn = get_db_connection(db_info.DB_PATH)
+    cursor = conn.cursor()
+
+    # Unpack the field values
+    storage_location_name = field_values[0]
+
+    # Execute sql command and catch any integrity errors (e.g. if the storage location already exists in the database)
+    try:
+        cursor.execute("INSERT INTO StorageLocations (LocationName) VALUES (?)", (storage_location_name,))
+        conn.commit()
+
+        # Show a message dialog to confirm the storage location has been added
+        msg_dialog = MsgDialog("Storage Location Added", f"{storage_location_name} has been added to the database.", "OK")
+        msg_dialog.exec()
+        dialog_close = True
+
+    except sqlite3.IntegrityError as e:
+        msg_dialog = MsgDialog("Error", f"The storage location '{storage_location_name}' already exists in the database.", "OK")
+        msg_dialog.exec_()
+        dialog_close = False
+
+    # Close the connection
+    conn.close()
+
+    return dialog_close
