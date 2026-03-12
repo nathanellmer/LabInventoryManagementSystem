@@ -7,10 +7,12 @@ from ui.dialogs.add_user_dialog import AddUserDialog
 from ui.dialogs.add_supplier_dialog import AddSupplierDialog
 from ui.dialogs.add_grant_codes_dialog import AddGrantCodesDialog
 from ui.dialogs.add_storage_locations_dialog import AddStorageLocationsDialog
+from ui.dialogs.update_item_dialog import UpdateItemDialog
 from ui.dialogs.update_user_dialog import UpdateUserDialog
 from ui.dialogs.update_supplier_dialog import UpdateSupplierDialog
 from ui.dialogs.update_grant_codes_dialog import UpdateGrantCodesDialog
 from ui.dialogs.update_storage_locations_dialog import UpdateStorageLocationsDialog
+from ui.dialogs.delete_item_dialog import DeleteItemDialog
 from ui.dialogs.delete_user_dialog import DeleteUserDialog
 from ui.dialogs.delete_supplier_dialog import DeleteSupplierDialog
 from ui.dialogs.delete_grant_codes_dialog import DeleteGrantCodesDialog
@@ -35,8 +37,8 @@ class EditDBBtnPanelWidget(QWidget):
 
         # Set the buttons for the panel
         grid_layout.addWidget(MainMenuButton("Add Item", self.open_add_item_dialog), 0, 0, alignment=Qt.AlignCenter)
-        grid_layout.addWidget(MainMenuButton("Update Item"), 0, 1, alignment=Qt.AlignCenter)
-        grid_layout.addWidget(MainMenuButton("Delete Item"), 0, 2, alignment=Qt.AlignCenter)
+        grid_layout.addWidget(MainMenuButton("Update Item", self.open_update_item_dialog), 0, 1, alignment=Qt.AlignCenter)
+        grid_layout.addWidget(MainMenuButton("Delete Item", self.open_delete_item_dialog), 0, 2, alignment=Qt.AlignCenter)
         grid_layout.addWidget(MainMenuButton("Add Supplier", self.open_add_supplier_dialog), 1, 0, alignment=Qt.AlignCenter)
         grid_layout.addWidget(MainMenuButton("Update Supplier", self.open_upd_supplier_dialog), 1, 1, alignment=Qt.AlignCenter)
         grid_layout.addWidget(MainMenuButton("Delete Supplier", self.open_delete_supplier_dialog), 1, 2, alignment=Qt.AlignCenter)
@@ -51,6 +53,16 @@ class EditDBBtnPanelWidget(QWidget):
     def open_add_item_dialog(self):
         add_item_dialog = AddItemDialog()
         add_item_dialog.exec()
+
+
+    def open_update_item_dialog(self):
+        update_item_dialog = UpdateItemDialog()
+        update_item_dialog.exec()
+
+
+    def open_delete_item_dialog(self):
+        delete_item_dialog = DeleteItemDialog()
+        delete_item_dialog.exec()
 
 
     def open_add_supplier_dialog(self):

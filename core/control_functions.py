@@ -3,6 +3,7 @@ from PySide6.QtCore import QObject, Signal
 class AppController(QObject):
     close_all_windows = Signal()
     logged_in_user = None
+    item_id = None
 
 controller = AppController()
 

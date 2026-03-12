@@ -10,50 +10,50 @@ from core.control_functions import controller
 from core.db_add_functions import add_item_to_db
 from core.db_get_functions import get_user_info_by_username, get_supplier_info_by_name, get_storage_location_info_by_name
 
-class AddItemDialog(QDialog):
+class ShowItemDialog(QDialog):
     def __init__(self):
         super().__init__()
 
         # Set the window size and title
         self.resize(400, 400)
-        self.setWindowTitle("Add Item to Database")
+        self.setWindowTitle("Show Item Information")
 
-        # Initialise the AddItemDialog layout and its margins (left, top, right, bottom)
-        add_item_dialog_layout = QVBoxLayout()
-        add_item_dialog_layout.setContentsMargins(20, 20, 20, 20)
+        # Initialise the ShowItemDialog layout and its margins (left, top, right, bottom)
+        show_item_dialog_layout = QVBoxLayout()
+        show_item_dialog_layout.setContentsMargins(20, 20, 20, 20)
 
-        # Add the header widget to the add item dialog layout
-        add_item_dialog_layout.addWidget(FormHeaderWidget("Add a New Item to the Database:"))
+        # Add the header widget to the show item dialog layout
+        show_item_dialog_layout.addWidget(FormHeaderWidget("Show Item Information"))
 
         # Add stretch
-        add_item_dialog_layout.addStretch()
+        show_item_dialog_layout.addStretch()
 
-        # Add the items panel widget to the add item dialog layout
+        # Add the items panel widget to the show item dialog layout
         self.item_form = ItemsPanelWidget()
-        add_item_dialog_layout.addWidget(self.item_form, alignment=Qt.AlignCenter)
+        show_item_dialog_layout.addWidget(self.item_form, alignment=Qt.AlignCenter)
 
         # Add spacing
-        add_item_dialog_layout.addSpacing(10)
+        show_item_dialog_layout.addSpacing(10)
 
-        # Add the chemical section widget to the add item dialog layout
+        # Add the chemical section widget to the show item dialog layout
         self.chemical_flag_1 = False
         self.chemical_flag_2 = False
         self.chemical_section = ItemsChemicalPanelWidget()
-        add_item_dialog_layout.addWidget(self.chemical_section)
+        show_item_dialog_layout.addWidget(self.chemical_section)
         self.chemical_section.hide()
 
         # Add a proceed button
-        add_item_dialog_layout.addWidget(MainMenuButton("Proceed", self.btn_proceed), alignment=Qt.AlignCenter)
+        show_item_dialog_layout.addWidget(MainMenuButton("Proceed", self.btn_proceed), alignment=Qt.AlignCenter)
 
         # Add stretch
-        add_item_dialog_layout.addStretch()
+        show_item_dialog_layout.addStretch()
 
-        # Add the universal footer widget to the add item dialog layout
+        # Add the universal footer widget to the show item dialog layout
         controller.close_all_windows.connect(self.close)
-        add_item_dialog_layout.addWidget(FormFooterWidget())
+        show_item_dialog_layout.addWidget(FormFooterWidget())
 
         # Set the main layout for the window
-        self.setLayout(add_item_dialog_layout)
+        self.setLayout(show_item_dialog_layout)
         
 
     def btn_proceed(self):

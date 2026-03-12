@@ -129,3 +129,37 @@ def update_storage_location_in_db(field_values):
     conn.close()
 
     return dialog_close
+
+
+# Update item information in the database
+def update_item_in_db(item_id, field_values_txt, field_values_cmb, field_values_chb, field_values_quartzy, field_values_hazards, user_id, supplier_id, storage_location_id):
+    # Setup connection
+    conn = get_db_connection(db_info.DB_PATH)
+    cursor = conn.cursor()
+
+    # Unpack the field values
+    item_name, item_prod_no, item_description, item_size, item_quantity, item_cost, item_website, item_notes = field_values_txt
+    item_supplier, item_location, item_category = field_values_cmb
+    item_reorder = field_values_chb[0]
+    item_quartzy = field_values_quartzy[0]
+    ghs_01, ghs_02, ghs_03, ghs_04, ghs_05, ghs_06, ghs_07, ghs_08, ghs_09 = field_values_hazards
+
+    # Execute sql command and catch any integrity errors (e.g. if the storage location already exists in the database)
+    try:
+        cursor.execute("UPDATE Items SET ItemName = ?, ItemSupplier = ?, ItemRef = ?, ItemDescription = ?, ItemSize = ?, ItemQuantity = ?, ItemStorageLocation = ?, ItemUnitCost = ?, ItemWebsite = ?, ItemReorderFlag = ?, ItemOriginator = ?, ItemCategory = ?, ItemNotes = ?, ItemQuartzyRef = ?, ItemGHS1 = ?, ItemGHS2 = ?, ItemGHS3 = ?, ItemGHS4 = ?, ItemGHS5 = ?, ItemGHS6 = ?, ItemGHS7 = ?, ItemGHS8 = ?, ItemGHS9 = ? WHERE ItemID = ?", (item_name, supplier_id, item_prod_no, item_description, item_size, item_quantity, storage_location_id, item_cost, item_website, item_reorder, user_id, item_category, item_notes, item_quartzy, ghs_01, ghs_02, ghs_03, ghs_04, ghs_05, ghs_06, ghs_07, ghs_08, ghs_09, item_id))
+        conn.commit()
+
+        # Show a message dialog to confirm the item has been updated
+        msg_dialog = MsgDialog("Item Updated", f"{item_name} has been updated in the database.", "OK")
+        msg_dialog.exec()
+        dialog_close = True
+
+    except sqlite3.IntegrityError as e:
+        msg_dialog = MsgDialog("Error", f"The item '{item_name}' product number already exists in the database.", "OK")
+        msg_dialog.exec_()
+        dialog_close = False
+
+    # Close the connection
+    conn.close()
+
+    return dialog_close

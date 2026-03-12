@@ -80,3 +80,23 @@ def delete_storage_location_from_db(storage_location_id):
 
     # Close the connection
     conn.close()
+
+
+# Delete item information in the database using item_id
+def delete_item_from_db(item_id):
+    # Setup connection
+    conn = get_db_connection(db_info.DB_PATH)
+    cursor = conn.cursor()
+
+    # Execute sql command and catch any integrity errors (e.g. if the supplier already exists in the database)
+    cursor.execute("DELETE FROM Items WHERE ItemID = ?", (item_id,))
+    conn.commit()
+
+    # Show a message dialog to confirm the item has been deleted
+    msg_dialog = MsgDialog("Item Deleted", "Item has been deleted from the database.", "OK")
+    msg_dialog.exec()
+    
+    conn.commit()
+
+    # Close the connection
+    conn.close()
