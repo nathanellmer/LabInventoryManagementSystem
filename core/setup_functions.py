@@ -4,6 +4,7 @@ import re
 
 from core.control_functions import db_info
 from core.utility_functions import resource_path
+from ui.styles.load_themes import THEMES
 
 # Setup of stylesheets
 def replace_url(match):
@@ -16,11 +17,13 @@ def replace_url(match):
 
 
 def load_stylesheets(files):
+    theme = THEMES.get(db_info.COLOUR_SCHEME)
+
     styles = []
 
     for file in files:
         with open(resource_path(file)) as f:
-            qss = f.read()
+            qss = f.read() % theme
             qss = re.sub(r'url\((.*?)\)', replace_url, qss)
             styles.append(qss)
 

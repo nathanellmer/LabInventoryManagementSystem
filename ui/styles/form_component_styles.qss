@@ -1,11 +1,11 @@
 QLabel[role="std_form_lbl"] {
-    color: #2B2B2B;
+    color: %(txt_color)s;
     font-size: 16px;
     min-width: 120px;
 }
 
 QLineEdit[role="std_form_txt"] {
-    color: #2B2B2B;
+    color: %(txt_color)s;
     font-size: 16px;
     padding: 5px 5px;
     max-width: 250px;
@@ -13,7 +13,7 @@ QLineEdit[role="std_form_txt"] {
 }
 
 QLineEdit[role="wide_form_txt"] {
-    color: #2B2B2B;
+    color: %(txt_color)s;
     font-size: 16px;
     padding: 5px 5px;
     max-width: 350px;
@@ -21,10 +21,10 @@ QLineEdit[role="wide_form_txt"] {
 }
 
 QComboBox[role="wide_form_cmb"] {
-    background-color: #FFFFFF;
-    color: #2B2B2B;
+    background-color: %(btn_background_color)s;
+    color: %(txt_color)s;
     padding: 6px 12px;
-    border: 2px solid #2B2B2B;
+    border: 2px solid %(txt_color)s;
     border-radius: 8px;
     font-size: 16px;
     max-width: 350px;

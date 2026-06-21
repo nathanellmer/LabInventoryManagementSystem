@@ -32,5 +32,6 @@ class DBInfo():
     DB_PATH = lines[0].split('"')[1]
     PREPURCHASE_PATH = lines[1].split('"')[1]
     MSDS_PATH = lines[2].split('"')[1]
+    COLOUR_SCHEME = lines[3].split('"')[1]
 
 db_info = DBInfo()

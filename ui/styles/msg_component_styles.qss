@@ -1,11 +1,11 @@
 QLabel[role="msg_title_lbl"] {
-    color: #2B2B2B;
+    color: %(txt_color)s;
     font-size: 18px;
     text-align: center;
 }
 
 QLabel[role="msg_info_line_lbl"] {
-    color: #2B2B2B;
+    color: %(txt_color)s;
     font-size: 16px;
     text-align: center;
 }

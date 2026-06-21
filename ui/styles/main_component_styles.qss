@@ -1,74 +1,74 @@
 QLabel[role="universal_footer_lbl"] {
-    color: #2B2B2B;
+    color: %(txt_color)s;
     font-size: 14px;
     text-align: center;
 }
 
 QLabel[role="universal_title_lbl"] {
-    color: #2B2B2B;
+    color: %(txt_color)s;
     font-size: 18px;
     font-weight: bold;
     text-align: center;
 }
 
 QLabel[role="universal_info_line_lbl"] {
-    color: #2B2B2B;
+    color: %(txt_color)s;
     font-size: 18px;
     text-align: center;
 }
 
 QPushButton[role="universal_close_btn"] {
-    background-color: #FF0000;
-    color: #FFFFFF;
+    background-color: %(close_btn_background_color)s;
+    color: %(close_btn_text_color)s;
     padding: 3px 6px;
-    border: 2px solid #FFFFFF;
+    border: 2px solid %(close_btn_text_color)s;
     border-radius: 4px;
     font-size: 14px;
     max-width: 150px;
 }
 
 QPushButton[role="universal_close_btn"]::hover {
-    background-color: #FFFFFF;
-    color: #FF0000;
-    border: 2px solid #FF0000;
+    background-color: %(close_btn_background_color_hover)s;
+    color: %(close_btn_text_color_hover)s;
+    border: 2px solid %(close_btn_text_color_hover)s;
     font-size: 14px;
 }
 
 QPushButton[role="universal_btn"] {
-    background-color: #FFFFFF;
-    color: #2B2B2B;
+    background-color: %(btn_background_color)s;
+    color: %(txt_color)s;
     padding: 6px 12px;
-    border: 2px solid #2B2B2B;
+    border: 2px solid %(txt_color)s;
     border-radius: 8px;
     font-size: 16px;
     width: 200px;
 }
 
 QPushButton[role="universal_btn"]::hover {
-    background-color: #242F60;
-    color: #FFFFFF;
-    border: 1px solid #FFFFFF;
+    background-color: %(universal_btn_background_color_hover)s;
+    color: %(universal_btn_text_color_hover)s;
+    border: 1px solid %(universal_btn_text_color_hover)s;
 }
 
 QPushButton[role="universal_link_btn"] {
     background-color: none;
-    color: #0000FF;
+    color: %(universal_btn_link_color)s;
     border: none;
     font-size: 14px;
 }
 
 QComboBox[role="universal_cmb"] {
-    background-color: #FFFFFF;
-    color: #2B2B2B;
+    background-color: %(btn_background_color)s;
+    color: %(txt_color)s;
     padding: 6px 12px;
-    border: 2px solid #2B2B2B;
+    border: 2px solid %(txt_color)s;
     border-radius: 8px;
     font-size: 16px;
     width: 200px;
 }
 
 QComboBox::drop-down {
-    background-color: #FFFFFF;
+    background-color: %(btn_background_color)s;
     border-radius: 6px;
 }
 
@@ -80,9 +80,9 @@ QComboBox::down-arrow {
 }
 
 QComboBox QAbstractItemView {
-    background-color: #FFFFFF;
-    color: #2B2B2B;
-    border: 1px solid #FFFFFF;
+    background-color: %(btn_background_color)s;
+    color: %(txt_color)s;
+    border: 1px solid %(btn_background_color)s;
     border-radius: 8px;
     font-size: 16px;
 }
