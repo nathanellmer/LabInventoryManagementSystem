@@ -1,1 +1,3 @@
 DB_PATH = "database/inventory_db.db"
+PREPURCHASE_PATH = ""
+MSDS_PATH = ""

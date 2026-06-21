@@ -61,7 +61,7 @@ class AddItemDialog(QDialog):
         field_values_txt = []
         field_values_cmb = []
         field_values_chb = []
-        field_values_quartzy = []
+        field_values_chem_txt = []
         field_values_hazards = []
         complete_flag = True
         compulsory_fields = [True, True, True, True, True, False, True, False]
@@ -83,6 +83,9 @@ class AddItemDialog(QDialog):
                     if compulsory_fields[idx]:
                         # If field is empty
                         complete_flag = False
+                    else:
+                        # If field is empty but not compulsory, add an empty string to the list
+                        field_values_txt.append("")
                     
                 else:
                     # Otherwise add the field value to the list
@@ -111,14 +114,14 @@ class AddItemDialog(QDialog):
                         
                     else:
                         # Otherwise add the field value to the list
-                        field_values_quartzy.append(field.txt.text())
+                        field_values_chem_txt.append(field.txt.text())
 
                 for field in self.chemical_section.findChildren(PictogramWidget):
                     field_values_hazards.append(field.chb.isChecked())
 
             else:
                 # If the chemical section is not visible, add empty values for the quartzy reference and hazard checkboxes
-                field_values_quartzy = [""]
+                field_values_chem_txt = [""] * 3
                 field_values_hazards = [False] * 9
 
             if complete_flag:
@@ -127,7 +130,7 @@ class AddItemDialog(QDialog):
                 user_info = get_user_info_by_username(user_name)
                 supplier_info = get_supplier_info_by_name(field_values_cmb[0])
                 storage_location_info = get_storage_location_info_by_name(field_values_cmb[1])
-                dialog_close = add_item_to_db(field_values_txt, field_values_cmb, field_values_chb, field_values_quartzy, field_values_hazards, user_info[0], supplier_info[0], storage_location_info[0][0])
+                dialog_close = add_item_to_db(field_values_txt, field_values_cmb, field_values_chb, field_values_chem_txt, field_values_hazards, user_info[0], supplier_info[0], storage_location_info[0][0])
 
                 # Close the dialog
                 if dialog_close:

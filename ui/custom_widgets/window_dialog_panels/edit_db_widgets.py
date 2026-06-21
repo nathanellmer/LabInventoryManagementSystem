@@ -17,6 +17,11 @@ from ui.dialogs.delete_user_dialog import DeleteUserDialog
 from ui.dialogs.delete_supplier_dialog import DeleteSupplierDialog
 from ui.dialogs.delete_grant_codes_dialog import DeleteGrantCodesDialog
 from ui.dialogs.delete_storage_locations_dialog import DeleteStorageLocationsDialog
+from ui.dialogs.add_items_via_csv_dialog import AddItemsCSVDialog
+from ui.dialogs.add_suppliers_via_csv_dialog import AddSuppliersCSVDialog
+from ui.dialogs.add_users_via_csv_dialog import AddUsersCSVDialog
+from ui.dialogs.add_grant_codes_via_csv_dialog import AddGrantCodesCSVDialog
+from ui.dialogs.add_storage_locations_via_csv_dialog import AddStorageLocationsCSVDialog
 
 
 # Panel widget for the edit database menu
@@ -90,7 +95,8 @@ class EditDBDropdownWidget(QWidget):
         # Set the panel widget
         self.dropdown_widget = MainMenuDropdownPanelWidget("Other actions:", self.select_action)
         self.dropdown_widget.cmb_dropdown.addItems(["Select Action...", 
-                                                    "Add Items via csv",
+                                                    "Add Items via csv", "Add Suppliers via csv", "Add Users via csv", 
+                                                    "Add Grant Codes via csv", "Add Storage Locations via csv",
                                                     "Add User", "Update User", "Delete User",
                                                     "Add Grant Code", "Update Grant Code", "Delete Grant Code",
                                                     "Add Storage Location", "Update Storage Location", "Delete Storage Location"])
@@ -120,7 +126,16 @@ class EditDBDropdownWidget(QWidget):
             self.open_update_storage_location_dialog()
         elif action == "Delete Storage Location":
             self.open_delete_storage_location_dialog()
-
+        elif action == "Add Items via csv":
+            self.open_add_items_csv_dialog()
+        elif action == "Add Suppliers via csv":
+            self.open_add_suppliers_csv_dialog()
+        elif action == "Add Users via csv":
+            self.open_add_users_csv_dialog()
+        elif action == "Add Grant Codes via csv":
+            self.open_add_grant_codes_csv_dialog()  
+        elif action == "Add Storage Locations via csv":
+            self.open_add_storage_locations_csv_dialog()
 
     def open_add_user_dialog(self):
         add_user_dialog = AddUserDialog()
@@ -165,4 +180,29 @@ class EditDBDropdownWidget(QWidget):
     def open_delete_storage_location_dialog(self):
         delete_storage_location_dialog = DeleteStorageLocationsDialog()
         delete_storage_location_dialog.exec()
+
+
+    def open_add_items_csv_dialog(self):
+        add_items_csv_dialog = AddItemsCSVDialog()
+        add_items_csv_dialog.exec()
+
+
+    def open_add_suppliers_csv_dialog(self):
+        add_suppliers_csv_dialog = AddSuppliersCSVDialog()
+        add_suppliers_csv_dialog.exec()
+
+
+    def open_add_users_csv_dialog(self):
+        add_users_csv_dialog = AddUsersCSVDialog()
+        add_users_csv_dialog.exec()
+
+
+    def open_add_grant_codes_csv_dialog(self):
+        add_grant_codes_csv_dialog = AddGrantCodesCSVDialog()
+        add_grant_codes_csv_dialog.exec()
+
+
+    def open_add_storage_locations_csv_dialog(self):    
+        add_storage_locations_csv_dialog = AddStorageLocationsCSVDialog()
+        add_storage_locations_csv_dialog.exec()
         

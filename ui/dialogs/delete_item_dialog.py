@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QDialog, QHBoxLayout, QVBoxLayout
+from PySide6.QtWidgets import QDialog, QHBoxLayout, QScrollArea, QVBoxLayout, QWidget
 from PySide6.QtCore import Qt
 from ui.custom_widgets.general.header_widgets import FormHeaderWidget
 from ui.custom_widgets.general.footer_widgets import FormFooterWidget
@@ -6,7 +6,6 @@ from ui.custom_widgets.general.button_widgets import MainMenuButton
 from ui.custom_widgets.general.form_widgets import FormLabelCheckBox, FormLabelComboWidgetWide, FormLabelTextWidgetWide, FormSearchPanelWidget, FormLabelTextWidget
 from ui.custom_widgets.window_dialog_panels.db_item_widgets import ItemsPanelWidget, ItemsChemicalPanelWidget, PictogramWidget
 from ui.dialogs.choice_selection_dialog import ChoiceSelectionDialogFour
-from ui.dialogs.msg_dialog import MsgDialog
 from core.control_functions import controller
 from core.db_get_functions import get_item_info_by_product_code, get_item_info_by_supplier, get_item_info_by_description, get_item_info_by_name, get_supplier_info_by_id, get_storage_location_info_by_id, get_user_info_by_username, get_supplier_info_by_name, get_storage_location_info_by_name
 from core.db_delete_functions import delete_item_from_db
@@ -16,8 +15,9 @@ class DeleteItemDialog(QDialog):
         super().__init__()
 
         # Set the window size and title
-        self.resize(500, 400)
+        self.resize(1250, 600)
         self.setWindowTitle("Delete Item from Database")
+        self.setMaximumHeight(600)
 
         # Initialise the DeleteItemDialog layout and its margins (left, top, right, bottom)
         del_item_dialog_layout = QVBoxLayout()
@@ -64,8 +64,18 @@ class DeleteItemDialog(QDialog):
         controller.close_all_windows.connect(self.close)
         del_item_dialog_layout.addWidget(FormFooterWidget())
 
+        # Create a container widget for the scroll area and set its layout
+        container = QWidget()
+        container.setLayout(del_item_dialog_layout)
+
+        # Create a scroll area and set the container widget as its widget
+        scroll_area = QScrollArea()
+        scroll_area.setWidgetResizable(True)
+        scroll_area.setWidget(container)
+
         # Set the main layout for the window
-        self.setLayout(del_item_dialog_layout)
+        main_layout = QVBoxLayout(self)
+        main_layout.addWidget(scroll_area)
         
 
     def btn_search(self):
@@ -134,11 +144,11 @@ class DeleteItemDialog(QDialog):
                 self.chemical_section.show()
                 self.chemical_flag_1 = True
 
-                info_idx = [14]
+                info_idx = [14, 15, 16]
                 for idx, field in enumerate(self.chemical_section.findChildren(FormLabelTextWidget)):
                     field.txt.setText(selected_item[info_idx[idx]])
 
-                info_idx = [15, 16, 17, 18, 19, 20, 21, 22, 23]
+                info_idx = [17, 18, 19, 20, 21, 22, 23, 24, 25]
                 for idx, field in enumerate(self.chemical_section.findChildren(PictogramWidget)):
                     field.chb.setChecked(selected_item[info_idx[idx]])
             else:

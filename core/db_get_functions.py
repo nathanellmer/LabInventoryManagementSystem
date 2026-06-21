@@ -285,6 +285,21 @@ def get_item_info_by_supplier(item_supplier):
     return item_info
 
 
+# Get all item information from the database using the reorder flag
+def get_items_info_by_reorder_flag():
+    # Setup connection
+    conn = get_db_connection(db_info.DB_PATH)
+    cursor = conn.cursor()
+
+    # Execute sql command
+    reorder_items = cursor.execute("SELECT * FROM Items WHERE ItemReorderFlag = 1").fetchall()
+
+    # Close the connection
+    conn.close()
+
+    return reorder_items
+
+
 # Get all item information from the database using item id
 def get_item_info_by_id(item_id):
     # Setup connection
@@ -298,3 +313,158 @@ def get_item_info_by_id(item_id):
     conn.close()
 
     return item_info
+
+
+# Get all the field names for the items table in the database and return them as a list
+def get_items_db_fieldnames():
+    # Setup connection
+    conn = get_db_connection(db_info.DB_PATH)
+    cursor = conn.cursor()
+
+    # Execute sql command to get the field names for the items table
+    cursor.execute("PRAGMA table_info(Items)")
+    fieldnames = [field[1] for field in cursor.fetchall()]
+
+    # Close the connection
+    conn.close()
+
+    return fieldnames[1:len(fieldnames)+1]
+
+
+# Get all items information from the database
+def get_all_items_info():
+    # Setup connection
+    conn = get_db_connection(db_info.DB_PATH)
+    cursor = conn.cursor()
+
+    # Execute sql command to get all items information
+    items_info = cursor.execute("SELECT * FROM Items").fetchall()
+
+    # Close the connection
+    conn.close()
+
+    return items_info
+
+
+# Get all the field names for the suppliers table in the database and return them as a list
+def get_suppliers_db_fieldnames():
+    # Setup connection
+    conn = get_db_connection(db_info.DB_PATH)
+    cursor = conn.cursor()
+
+    # Execute sql command to get the field names for the suppliers table
+    cursor.execute("PRAGMA table_info(Suppliers)")
+    fieldnames = [field[1] for field in cursor.fetchall()]
+
+    # Close the connection
+    conn.close()
+
+    return fieldnames[1:len(fieldnames)+1]
+
+
+# Get all suppliers information from the database
+def get_all_suppliers_info():
+    # Setup connection
+    conn = get_db_connection(db_info.DB_PATH)
+    cursor = conn.cursor()
+
+    # Execute sql command to get all suppliers information
+    suppliers_info = cursor.execute("SELECT * FROM Suppliers").fetchall()
+
+    # Close the connection
+    conn.close()
+
+    return suppliers_info
+
+
+# Get all the field names for the users table in the database and return them as a list
+def get_users_db_fieldnames():
+    # Setup connection
+    conn = get_db_connection(db_info.DB_PATH)
+    cursor = conn.cursor()
+
+    # Execute sql command to get the field names for the users table
+    cursor.execute("PRAGMA table_info(Users)")
+    fieldnames = [field[1] for field in cursor.fetchall()]
+
+    # Close the connection
+    conn.close()
+
+    return fieldnames[1:len(fieldnames)+1]
+
+
+# Get all users information from the database
+def get_all_users_info():
+    # Setup connection
+    conn = get_db_connection(db_info.DB_PATH)
+    cursor = conn.cursor()
+
+    # Execute sql command to get all users information
+    users_info = cursor.execute("SELECT * FROM Users").fetchall()
+
+    # Close the connection
+    conn.close()
+
+    return users_info
+
+
+# Get all the field names for the grant codes table in the database and return them as a list
+def get_grant_codes_db_fieldnames():
+    # Setup connection
+    conn = get_db_connection(db_info.DB_PATH)
+    cursor = conn.cursor()
+
+    # Execute sql command to get the field names for the grant codes table
+    cursor.execute("PRAGMA table_info(GrantCodes)")
+    fieldnames = [field[1] for field in cursor.fetchall()]
+
+    # Close the connection
+    conn.close()
+
+    return fieldnames[1:len(fieldnames)+1]
+
+
+# Get all grant_codes information from the database
+def get_all_grant_codes_info():
+    # Setup connection
+    conn = get_db_connection(db_info.DB_PATH)
+    cursor = conn.cursor()
+
+    # Execute sql command to get all grant codes information
+    grant_codes_info = cursor.execute("SELECT * FROM GrantCodes").fetchall()
+
+    # Close the connection
+    conn.close()
+
+    return grant_codes_info
+
+
+# Get all the field names for the locations table in the database and return them as a list
+def get_locations_db_fieldnames():
+    # Setup connection
+    conn = get_db_connection(db_info.DB_PATH)
+    cursor = conn.cursor()
+
+    # Execute sql command to get the field names for the locations table
+    cursor.execute("PRAGMA table_info(StorageLocations)")
+    fieldnames = [field[1] for field in cursor.fetchall()]
+
+    # Close the connection
+    conn.close()
+
+    return fieldnames[1:len(fieldnames)+1]
+
+
+# Get all locations information from the database
+def get_all_locations_info():
+    # Setup connection
+    conn = get_db_connection(db_info.DB_PATH)
+    cursor = conn.cursor()
+
+    # Execute sql command to get all locations information
+    locations_info = cursor.execute("SELECT * FROM StorageLocations").fetchall()
+
+    # Close the connection
+    conn.close()
+
+    return locations_info

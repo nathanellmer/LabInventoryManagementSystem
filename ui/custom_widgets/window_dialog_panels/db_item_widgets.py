@@ -5,6 +5,9 @@ from ui.custom_widgets.general.form_widgets import FormLabelTextWidget, FormLabe
 from ui.dialogs.add_supplier_dialog import AddSupplierDialog
 from ui.dialogs.add_storage_locations_dialog import AddStorageLocationsDialog
 from core.db_get_functions import get_all_suppliers, get_all_storage_locations
+from core.utility_functions import resource_path
+from core.control_functions import db_info
+import os
 
 # Panel widget for the items based database information
 class ItemsPanelWidget(QWidget):
@@ -136,7 +139,7 @@ class PictogramWidget(QWidget):
         self.setLayout(pictogram_layout)
 
 
-# Panel widget for the chemical aspect of items based database information
+# Editable panel widget for the chemical aspect of items based database information
 class ItemsChemicalPanelWidget(QWidget):
     def __init__(self):
         super().__init__()
@@ -154,6 +157,20 @@ class ItemsChemicalPanelWidget(QWidget):
         # Add spacing
         form_panel_layout.addSpacing(10)
 
+        # Add a form label/line edit widget for the new item file names
+        central_layout = QHBoxLayout()
+        central_layout.addStretch()
+        self.item_prepurchase = FormLabelTextWidget("Pre-purchase Filename:")
+        central_layout.addLayout(self.item_prepurchase)
+        central_layout.addSpacing(20)
+        self.item_msds = FormLabelTextWidget("MSDS Filename:")
+        central_layout.addLayout(self.item_msds)
+        central_layout.addStretch()
+        form_panel_layout.addLayout(central_layout)
+
+        # Add spacing
+        form_panel_layout.addSpacing(10)
+
         # Add a label for the pictogram section
         lbl_pictogram_section = QLabel("Select the appropriate GHS pictograms for the item:")
         lbl_pictogram_section.setProperty("role", "std_form_lbl")
@@ -161,15 +178,15 @@ class ItemsChemicalPanelWidget(QWidget):
 
         # Add pictograms 
         pictograms_layout = QHBoxLayout()
-        self.GHS01_pictogram = PictogramWidget("assets/ghs_01_explosive.tif")
-        self.GHS02_pictogram = PictogramWidget("assets/ghs_02_flammable.tif")
-        self.GHS03_pictogram = PictogramWidget("assets/ghs_03_oxidiser.tif")
-        self.GHS04_pictogram = PictogramWidget("assets/ghs_04_compressed.tif")
-        self.GHS05_pictogram = PictogramWidget("assets/ghs_05_corrosion.tif")
-        self.GHS06_pictogram = PictogramWidget("assets/ghs_06_toxic.tif")
-        self.GHS07_pictogram = PictogramWidget("assets/ghs_07_irritant.tif")
-        self.GHS08_pictogram = PictogramWidget("assets/ghs_08_health.tif")
-        self.GHS09_pictogram = PictogramWidget("assets/ghs_09_environment.tif")
+        self.GHS01_pictogram = PictogramWidget(resource_path("assets/ghs_01_explosive.tif"))
+        self.GHS02_pictogram = PictogramWidget(resource_path("assets/ghs_02_flammable.tif"))
+        self.GHS03_pictogram = PictogramWidget(resource_path("assets/ghs_03_oxidiser.tif"))
+        self.GHS04_pictogram = PictogramWidget(resource_path("assets/ghs_04_compressed.tif"))
+        self.GHS05_pictogram = PictogramWidget(resource_path("assets/ghs_05_corrosion.tif"))
+        self.GHS06_pictogram = PictogramWidget(resource_path("assets/ghs_06_toxic.tif"))
+        self.GHS07_pictogram = PictogramWidget(resource_path("assets/ghs_07_irritant.tif"))
+        self.GHS08_pictogram = PictogramWidget(resource_path("assets/ghs_08_health.tif"))
+        self.GHS09_pictogram = PictogramWidget(resource_path("assets/ghs_09_environment.tif"))
         pictograms_layout.addWidget(self.GHS01_pictogram)
         pictograms_layout.addWidget(self.GHS02_pictogram)
         pictograms_layout.addWidget(self.GHS03_pictogram)
@@ -184,3 +201,79 @@ class ItemsChemicalPanelWidget(QWidget):
 
         # Set the main layout for the widget
         self.setLayout(form_panel_layout)
+
+
+# Show panel widget for the chemical aspect of items based database information
+class ItemsChemicalDisplayPanelWidget(QWidget):
+    def __init__(self, prepurchase_filename:str, msds_filename:str):
+        super().__init__()
+        # Set form layout
+        form_panel_layout = QVBoxLayout()
+
+        # Add a form label/line edit widget for the new item quartzy reference
+        central_layout = QHBoxLayout()
+        central_layout.addStretch()
+        self.item_quartzy_ref = FormLabelTextWidget("Quartzy Reference:")
+        central_layout.addLayout(self.item_quartzy_ref)
+        central_layout.addStretch()
+        form_panel_layout.addLayout(central_layout)
+
+        # Add spacing
+        form_panel_layout.addSpacing(10)
+
+        # Add a form label/line edit widget for the new item file names
+        central_layout = QHBoxLayout()
+        central_layout.addStretch()
+        self.item_prepurchase = FormLabelLinkButton(prepurchase_filename, self.open_prepurchase_file)
+        central_layout.addLayout(self.item_prepurchase)
+        central_layout.addSpacing(20)
+        self.item_msds = FormLabelLinkButton(msds_filename, self.open_msds_file)
+        central_layout.addLayout(self.item_msds)
+        central_layout.addStretch()
+        form_panel_layout.addLayout(central_layout)
+
+        # Add spacing
+        form_panel_layout.addSpacing(10)
+
+        # Add a label for the pictogram section
+        lbl_pictogram_section = QLabel("Select the appropriate GHS pictograms for the item:")
+        lbl_pictogram_section.setProperty("role", "std_form_lbl")
+        form_panel_layout.addWidget(lbl_pictogram_section, alignment=Qt.AlignCenter)
+
+        # Add pictograms 
+        pictograms_layout = QHBoxLayout()
+        self.GHS01_pictogram = PictogramWidget(resource_path("assets/ghs_01_explosive.tif"))
+        self.GHS02_pictogram = PictogramWidget(resource_path("assets/ghs_02_flammable.tif"))
+        self.GHS03_pictogram = PictogramWidget(resource_path("assets/ghs_03_oxidiser.tif"))
+        self.GHS04_pictogram = PictogramWidget(resource_path("assets/ghs_04_compressed.tif"))
+        self.GHS05_pictogram = PictogramWidget(resource_path("assets/ghs_05_corrosion.tif"))
+        self.GHS06_pictogram = PictogramWidget(resource_path("assets/ghs_06_toxic.tif"))
+        self.GHS07_pictogram = PictogramWidget(resource_path("assets/ghs_07_irritant.tif"))
+        self.GHS08_pictogram = PictogramWidget(resource_path("assets/ghs_08_health.tif"))
+        self.GHS09_pictogram = PictogramWidget(resource_path("assets/ghs_09_environment.tif"))
+        pictograms_layout.addWidget(self.GHS01_pictogram)
+        pictograms_layout.addWidget(self.GHS02_pictogram)
+        pictograms_layout.addWidget(self.GHS03_pictogram)
+        pictograms_layout.addWidget(self.GHS04_pictogram)
+        pictograms_layout.addWidget(self.GHS05_pictogram)
+        pictograms_layout.addWidget(self.GHS06_pictogram)
+        pictograms_layout.addWidget(self.GHS07_pictogram)
+        pictograms_layout.addWidget(self.GHS08_pictogram)
+        pictograms_layout.addWidget(self.GHS09_pictogram)
+
+        form_panel_layout.addLayout(pictograms_layout)
+
+        # Set the main layout for the widget
+        self.setLayout(form_panel_layout)
+
+    
+    def open_prepurchase_file(self):
+        filename = self.item_prepurchase.btn.text()
+        filepath = db_info.PREPURCHASE_PATH + filename
+        os.startfile(filepath)
+
+
+    def open_msds_file(self):
+        filename = self.item_msds.btn.text()
+        filepath = db_info.MSDS_PATH + filename
+        os.startfile(filepath)

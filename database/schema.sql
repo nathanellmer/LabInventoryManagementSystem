@@ -15,6 +15,8 @@ CREATE TABLE Suppliers (
     SupplierWebsite TEXT NOT NULL,
     SupplierAddressL1 TEXT NOT NULL,
     SupplierAddressL2 TEXT NOT NULL,
+    SupplierAddressL3 TEXT NOT NULL,
+    SupplierAddressL4 TEXT NOT NULL,
     SupplierPostcode TEXT NOT NULL,
     SupplierPhone TEXT NOT NULL,
     SupplierEmail TEXT NOT NULL
@@ -50,6 +52,8 @@ CREATE TABLE Items (
     ItemCategory TEXT NOT NULL,
     ItemNotes TEXT,
     ItemQuartzyRef TEXT DEFAULT NULL,
+    ItemPrepurchase TEXT DEFAULT NULL,
+    ItemMSDS TEXT DEFAULT NULL,
     ItemGHS1 BOOLEAN NOT NULL DEFAULT FALSE,
     ItemGHS2 BOOLEAN NOT NULL DEFAULT FALSE,
     ItemGHS3 BOOLEAN NOT NULL DEFAULT FALSE,
@@ -63,44 +67,3 @@ CREATE TABLE Items (
     FOREIGN KEY (ItemStorageLocation) REFERENCES StorageLocations(LocationID),
     FOREIGN KEY (ItemOriginator) REFERENCES Users(UserID)
 );
-
--- -- Institutions table
--- CREATE TABLE Institutions (
---     InstitutionID INTEGER PRIMARY KEY AUTOINCREMENT,
---     InstitutionName TEXT NOT NULL,
---     AssocCategoryID INTEGER NOT NULL,
---     FOREIGN KEY (AssocCategoryID) REFERENCES Categories(CategoryID)
--- );
-
--- -- Banks table
--- CREATE TABLE Banks (
---     BankID INTEGER PRIMARY KEY AUTOINCREMENT,
---     BankName TEXT NOT NULL
--- );
-
--- -- Accounts table
--- CREATE TABLE Accounts (
---     AccountID INTEGER PRIMARY KEY AUTOINCREMENT,
---     AccountName TEXT NOT NULL,
---     AssocBankID INTEGER NOT NULL,
---     AccountStartDate DATE NOT NULL,
---     AccountEndDate DATE NOT NULL,
---     AccountType TEXT NOT NULL,
---     AccountBalance DECIMAL(15, 2) NOT NULL DEFAULT 0.00,
---     FOREIGN KEY (AssocBankID) REFERENCES Banks(BankID)
--- );
-
--- -- Transactions table
--- CREATE TABLE Transactions (
---     TransactionID INTEGER PRIMARY KEY AUTOINCREMENT,
---     TransactionAccountID INTEGER NOT NULL,
---     TransactionDate DATE NOT NULL,
---     TransactionOutInstitutionID INTEGER,
---     TransactionOutAccountID INTEGER,
---     TransactionAmountDebit DECIMAL(15, 2) NOT NULL DEFAULT 0.00,
---     TransactionAmountCredit DECIMAL(15, 2) NOT NULL DEFAULT 0.00,
---     FOREIGN KEY (TransactionAccountID) REFERENCES Banks(BankID),
---     FOREIGN KEY (TransactionOutInstitutionID) REFERENCES Institutions(InstitutionID),
---     FOREIGN KEY (TransactionOutAccountID) REFERENCES Banks(BankID)
--- );
-

@@ -2,6 +2,7 @@ from PySide6.QtWidgets import QLabel, QPushButton, QVBoxLayout, QWidget
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QPixmap
 from core.control_functions import controller
+from core.utility_functions import resource_path
 
 # Footer label widget for the application
 class FooterLabel(QLabel):
@@ -16,7 +17,7 @@ class FooterLabel(QLabel):
 class SULogoLabel(QLabel):
     def __init__(self):
         super().__init__()
-        pixmap = QPixmap("assets/SU_logo.png")
+        pixmap = QPixmap(resource_path("assets/SU_logo.png"))
         self.setPixmap(pixmap.scaledToWidth(150, Qt.SmoothTransformation))
         self.setAlignment(Qt.AlignCenter)
         self.setFixedHeight(150)

@@ -1,6 +1,7 @@
 from PySide6.QtWidgets import QLabel, QVBoxLayout, QWidget
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QPixmap
+from core.utility_functions import resource_path
 
 # Title label widget for the application
 class TitleLabel(QLabel):
@@ -15,7 +16,7 @@ class TitleLabel(QLabel):
 class LabLogoLabel(QLabel):
     def __init__(self):
         super().__init__()
-        pixmap = QPixmap("assets/Lab_logo.png")
+        pixmap = QPixmap(resource_path("assets/Lab_logo.png"))
         self.setPixmap(pixmap.scaledToWidth(150, Qt.SmoothTransformation))
         self.setAlignment(Qt.AlignCenter)
         self.setFixedHeight(50)

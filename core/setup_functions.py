@@ -1,17 +1,31 @@
 import sqlite3
 import os
+import re
 
 from core.control_functions import db_info
+from core.utility_functions import resource_path
 
 # Setup of stylesheets
+def replace_url(match):
+    relative_img_path = match.group(1).strip('"\'')
+
+    # Convert to absolute path
+    abs_img_path = resource_path(relative_img_path)
+    # Use forward slashes for QSS (Qt requires /)
+    return f'url("{abs_img_path.replace(os.sep, "/")}")'
+
+
 def load_stylesheets(files):
     styles = []
 
     for file in files:
-        with open(file) as f:
-            styles.append(f.read())
+        with open(resource_path(file)) as f:
+            qss = f.read()
+            qss = re.sub(r'url\((.*?)\)', replace_url, qss)
+            styles.append(qss)
 
     return "\n".join(styles)
+
 
 def load_all_stylesheets(app):
     app.setStyleSheet(load_stylesheets(["ui/styles/main_component_styles.qss", 

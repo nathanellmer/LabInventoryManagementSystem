@@ -30,3 +30,7 @@ QComboBox[role="wide_form_cmb"] {
     max-width: 350px;
     min-width: 300px;
 }
+
+QScrollArea {
+    border: none;
+}

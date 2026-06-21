@@ -21,6 +21,10 @@ class SupplierPanelWidget(QWidget):
         form_panel_layout.addLayout(self.address_L1)
         self.address_L2 = FormLabelTextWidgetWide("")
         form_panel_layout.addLayout(self.address_L2)
+        self.address_L3 = FormLabelTextWidgetWide("")
+        form_panel_layout.addLayout(self.address_L3)
+        self.address_L4 = FormLabelTextWidgetWide("")
+        form_panel_layout.addLayout(self.address_L4)
 
         # Add a form label/line edit widget for the postcode
         self.postcode = FormLabelTextWidgetWide("Postcode:")

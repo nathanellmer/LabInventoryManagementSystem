@@ -42,11 +42,11 @@ def update_supplier_in_db(field_values):
     cursor = conn.cursor()
 
     # Unpack the field values
-    supplier_id, supplier_name, supplier_website, supplier_address_L1, supplier_address_L2, supplier_postcode, supplier_phone, supplier_email = field_values
+    supplier_id, supplier_name, supplier_website, supplier_address_L1, supplier_address_L2, supplier_address_L3, supplier_address_L4, supplier_postcode, supplier_phone, supplier_email = field_values
 
     # Execute sql command and catch any integrity errors (e.g. if the supplier already exists in the database)
     try:
-        cursor.execute("UPDATE Suppliers SET SupplierName = ?, SupplierWebsite = ?, SupplierAddressL1 = ?, SupplierAddressL2 = ?, SupplierPostcode = ?, SupplierPhone = ?, SupplierEmail = ? WHERE SupplierID = ?", (supplier_name, supplier_website, supplier_address_L1, supplier_address_L2, supplier_postcode, supplier_phone, supplier_email, supplier_id))
+        cursor.execute("UPDATE Suppliers SET SupplierName = ?, SupplierWebsite = ?, SupplierAddressL1 = ?, SupplierAddressL2 = ?, SupplierAddressL3 = ?, SupplierAddressL4 = ?, SupplierPostcode = ?, SupplierPhone = ?, SupplierEmail = ? WHERE SupplierID = ?", (supplier_name, supplier_website, supplier_address_L1, supplier_address_L2, supplier_address_L3, supplier_address_L4, supplier_postcode, supplier_phone, supplier_email, supplier_id))
         conn.commit()
 
         # Show a message dialog to confirm the supplier has been added
@@ -132,7 +132,7 @@ def update_storage_location_in_db(field_values):
 
 
 # Update item information in the database
-def update_item_in_db(item_id, field_values_txt, field_values_cmb, field_values_chb, field_values_quartzy, field_values_hazards, user_id, supplier_id, storage_location_id):
+def update_item_in_db(item_id, field_values_txt, field_values_cmb, field_values_chb, field_values_chem_txt, field_values_hazards, user_id, supplier_id, storage_location_id):
     # Setup connection
     conn = get_db_connection(db_info.DB_PATH)
     cursor = conn.cursor()
@@ -141,12 +141,12 @@ def update_item_in_db(item_id, field_values_txt, field_values_cmb, field_values_
     item_name, item_prod_no, item_description, item_size, item_quantity, item_cost, item_website, item_notes = field_values_txt
     item_supplier, item_location, item_category = field_values_cmb
     item_reorder = field_values_chb[0]
-    item_quartzy = field_values_quartzy[0]
+    item_quartzy, item_prepurchase, item_msds = field_values_chem_txt
     ghs_01, ghs_02, ghs_03, ghs_04, ghs_05, ghs_06, ghs_07, ghs_08, ghs_09 = field_values_hazards
 
     # Execute sql command and catch any integrity errors (e.g. if the storage location already exists in the database)
     try:
-        cursor.execute("UPDATE Items SET ItemName = ?, ItemSupplier = ?, ItemRef = ?, ItemDescription = ?, ItemSize = ?, ItemQuantity = ?, ItemStorageLocation = ?, ItemUnitCost = ?, ItemWebsite = ?, ItemReorderFlag = ?, ItemOriginator = ?, ItemCategory = ?, ItemNotes = ?, ItemQuartzyRef = ?, ItemGHS1 = ?, ItemGHS2 = ?, ItemGHS3 = ?, ItemGHS4 = ?, ItemGHS5 = ?, ItemGHS6 = ?, ItemGHS7 = ?, ItemGHS8 = ?, ItemGHS9 = ? WHERE ItemID = ?", (item_name, supplier_id, item_prod_no, item_description, item_size, item_quantity, storage_location_id, item_cost, item_website, item_reorder, user_id, item_category, item_notes, item_quartzy, ghs_01, ghs_02, ghs_03, ghs_04, ghs_05, ghs_06, ghs_07, ghs_08, ghs_09, item_id))
+        cursor.execute("UPDATE Items SET ItemName = ?, ItemSupplier = ?, ItemRef = ?, ItemDescription = ?, ItemSize = ?, ItemQuantity = ?, ItemStorageLocation = ?, ItemUnitCost = ?, ItemWebsite = ?, ItemReorderFlag = ?, ItemOriginator = ?, ItemCategory = ?, ItemNotes = ?, ItemQuartzyRef = ?, ItemPrepurchase = ?, ItemMSDS = ?, ItemGHS1 = ?, ItemGHS2 = ?, ItemGHS3 = ?, ItemGHS4 = ?, ItemGHS5 = ?, ItemGHS6 = ?, ItemGHS7 = ?, ItemGHS8 = ?, ItemGHS9 = ? WHERE ItemID = ?", (item_name, supplier_id, item_prod_no, item_description, item_size, item_quantity, storage_location_id, item_cost, item_website, item_reorder, user_id, item_category, item_notes, item_quartzy, item_prepurchase, item_msds, ghs_01, ghs_02, ghs_03, ghs_04, ghs_05, ghs_06, ghs_07, ghs_08, ghs_09, item_id))
         conn.commit()
 
         # Show a message dialog to confirm the item has been updated

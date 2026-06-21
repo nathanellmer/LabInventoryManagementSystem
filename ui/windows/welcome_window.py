@@ -16,6 +16,7 @@ class WelcomeWindow(QWidget):
         # Set the window size and title
         self.resize(400, 600)
         self.setWindowTitle("Laboratory Inventory Management System")
+        self.setMaximumHeight(800)
 
         # Initialise the WelcomeWindow layout and its margins (left, top, right, bottom)
         welcome_window_layout = QVBoxLayout()

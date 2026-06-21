@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QDialog, QHBoxLayout, QVBoxLayout
+from PySide6.QtWidgets import QDialog, QHBoxLayout, QScrollArea, QVBoxLayout, QWidget
 from PySide6.QtCore import Qt
 from ui.custom_widgets.general.header_widgets import FormHeaderWidget
 from ui.custom_widgets.general.footer_widgets import FormFooterWidget
@@ -16,8 +16,9 @@ class UpdateItemDialog(QDialog):
         super().__init__()
 
         # Set the window size and title
-        self.resize(500, 400)
+        self.resize(1250, 600)
         self.setWindowTitle("Update Item in Database")
+        self.setMaximumHeight(600)
 
         # Initialise the UpdateItemDialog layout and its margins (left, top, right, bottom)
         upd_item_dialog_layout = QVBoxLayout()
@@ -64,8 +65,18 @@ class UpdateItemDialog(QDialog):
         controller.close_all_windows.connect(self.close)
         upd_item_dialog_layout.addWidget(FormFooterWidget())
 
+        # Create a container widget for the scroll area and set its layout
+        container = QWidget()
+        container.setLayout(upd_item_dialog_layout)
+
+        # Create a scroll area and set the container widget as its widget
+        scroll_area = QScrollArea()
+        scroll_area.setWidgetResizable(True)
+        scroll_area.setWidget(container)
+
         # Set the main layout for the window
-        self.setLayout(upd_item_dialog_layout)
+        main_layout = QVBoxLayout(self)
+        main_layout.addWidget(scroll_area)
         
 
     def btn_search(self):
@@ -134,11 +145,11 @@ class UpdateItemDialog(QDialog):
                 self.chemical_section.show()
                 self.chemical_flag_1 = True
 
-                info_idx = [14]
+                info_idx = [14, 15 ,16]
                 for idx, field in enumerate(self.chemical_section.findChildren(FormLabelTextWidget)):
                     field.txt.setText(selected_item[info_idx[idx]])
 
-                info_idx = [15, 16, 17, 18, 19, 20, 21, 22, 23]
+                info_idx = [17, 18, 19, 20, 21, 22, 23, 24, 25]
                 for idx, field in enumerate(self.chemical_section.findChildren(PictogramWidget)):
                     field.chb.setChecked(selected_item[info_idx[idx]])
             else:
@@ -150,7 +161,7 @@ class UpdateItemDialog(QDialog):
         field_values_txt = []
         field_values_cmb = []
         field_values_chb = []
-        field_values_quartzy = []
+        field_values_chem_txt = []
         field_values_hazards = []
         complete_flag = True
         compulsory_fields = [True, True, True, True, True, False, True, False]
@@ -172,6 +183,9 @@ class UpdateItemDialog(QDialog):
                     if compulsory_fields[idx]:
                         # If field is empty
                         complete_flag = False
+                    else:
+                        # If field is empty but not compulsory, add an empty string to the list
+                        field_values_txt.append("")
                     
                 else:
                     # Otherwise add the field value to the list
@@ -200,14 +214,14 @@ class UpdateItemDialog(QDialog):
                         
                     else:
                         # Otherwise add the field value to the list
-                        field_values_quartzy.append(field.txt.text())
+                        field_values_chem_txt.append(field.txt.text())
 
                 for field in self.chemical_section.findChildren(PictogramWidget):
                     field_values_hazards.append(field.chb.isChecked())
 
             else:
-                # If the chemical section is not visible, add empty values for the quartzy reference and hazard checkboxes
-                field_values_quartzy = [""]
+                # If the chemical section is not visible, add empty values for the chemical text fields and hazard checkboxes
+                field_values_chem_txt = [""] * 3
                 field_values_hazards = [False] * 9
 
             if complete_flag:
@@ -216,7 +230,7 @@ class UpdateItemDialog(QDialog):
                 user_id = self.originator_id
                 supplier_info = get_supplier_info_by_name(field_values_cmb[0])
                 storage_location_info = get_storage_location_info_by_name(field_values_cmb[1])
-                dialog_close = update_item_in_db(item_id, field_values_txt, field_values_cmb, field_values_chb, field_values_quartzy, field_values_hazards, user_id, supplier_info[0], storage_location_info[0][0])
+                dialog_close = update_item_in_db(item_id, field_values_txt, field_values_cmb, field_values_chb, field_values_chem_txt, field_values_hazards, user_id, supplier_info[0], storage_location_info[0][0])
 
                 # Close the dialog
                 if dialog_close:
