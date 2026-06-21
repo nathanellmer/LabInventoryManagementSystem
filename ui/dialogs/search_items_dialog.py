@@ -5,7 +5,7 @@ from PySide6.QtCore import Qt
 from ui.custom_widgets.general.header_widgets import FormHeaderWidget
 from ui.custom_widgets.general.footer_widgets import FormFooterWidget
 from ui.custom_widgets.general.button_widgets import MainMenuButton, MainMenuLinkButton
-from ui.custom_widgets.general.form_widgets import FormLabelCheckBox, FormLabelComboWidgetWide, FormLabelLinkButton, FormLabelTextWidgetWide, FormSearchPanelWidget, FormLabelTextWidget
+from ui.custom_widgets.general.form_widgets import FormLabelCheckBox, FormLabelComboWidgetWide, FormLabelLinkButton, FormLabelTextWidgetExtraWide, FormLabelTextWidgetWide, FormSearchPanelWidget, FormLabelTextWidget
 from ui.custom_widgets.window_dialog_panels.db_item_widgets import ItemsPanelWidget, ItemsChemicalDisplayPanelWidget, PictogramWidget
 from ui.dialogs.choice_selection_dialog import ChoiceSelectionDialogTwo, ChoiceSelectionDialogFour
 from ui.dialogs.add_grant_codes_dialog import AddGrantCodesDialog
@@ -165,7 +165,7 @@ class SearchItemDialog(QDialog):
                 self.chemical_flag_1 = True
 
                 info_idx = [14]
-                for idx, field in enumerate(self.chemical_section.findChildren(FormLabelTextWidget)):
+                for idx, field in enumerate(self.chemical_section.findChildren(FormLabelTextWidgetExtraWide)):
                     field.txt.setText(selected_item[info_idx[idx]])
 
                 info_idx = [15, 16]

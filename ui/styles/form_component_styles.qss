@@ -20,6 +20,14 @@ QLineEdit[role="wide_form_txt"] {
     min-width: 300px;
 }
 
+QLineEdit[role="extra_wide_form_txt"] {
+    color: %(txt_color)s;
+    font-size: 16px;
+    padding: 5px 5px;
+    max-width: 500px;
+    min-width: 400px;
+}
+
 QComboBox[role="wide_form_cmb"] {
     background-color: %(btn_background_color)s;
     color: %(txt_color)s;

@@ -3,7 +3,7 @@ from PySide6.QtCore import Qt
 from ui.custom_widgets.general.header_widgets import FormHeaderWidget
 from ui.custom_widgets.general.footer_widgets import FormFooterWidget
 from ui.custom_widgets.general.button_widgets import MainMenuButton
-from ui.custom_widgets.general.form_widgets import FormLabelCheckBox, FormLabelComboWidgetWide, FormLabelTextWidgetWide, FormSearchPanelWidget, FormLabelTextWidget
+from ui.custom_widgets.general.form_widgets import FormLabelCheckBox, FormLabelComboWidgetWide, FormLabelTextWidgetExtraWide, FormLabelTextWidgetWide, FormSearchPanelWidget, FormLabelTextWidget
 from ui.custom_widgets.window_dialog_panels.db_item_widgets import ItemsPanelWidget, ItemsChemicalPanelWidget, PictogramWidget
 from ui.dialogs.choice_selection_dialog import ChoiceSelectionDialogFour
 from core.control_functions import controller
@@ -144,7 +144,11 @@ class DeleteItemDialog(QDialog):
                 self.chemical_section.show()
                 self.chemical_flag_1 = True
 
-                info_idx = [14, 15, 16]
+                info_idx = [14]
+                for idx, field in enumerate(self.chemical_section.findChildren(FormLabelTextWidgetExtraWide)):
+                    field.txt.setText(selected_item[info_idx[idx]])
+
+                info_idx = [15, 16]
                 for idx, field in enumerate(self.chemical_section.findChildren(FormLabelTextWidget)):
                     field.txt.setText(selected_item[info_idx[idx]])
 

@@ -1,6 +1,6 @@
 from PySide6.QtWidgets import QDialog, QVBoxLayout
 from PySide6.QtCore import Qt, Signal
-from ui.custom_widgets.general.form_widgets import FormLabelComboWidgetWide, FormLabelTextWidget, FormLabelTextWidgetWide
+from ui.custom_widgets.general.form_widgets import FormLabelComboWidgetWide, FormLabelTextWidget, FormLabelTextWidgetExtraWide, FormLabelTextWidgetWide
 from ui.custom_widgets.general.header_widgets import FormHeaderWidget
 from ui.custom_widgets.general.footer_widgets import FormFooterWidget
 from ui.custom_widgets.general.button_widgets import MainMenuButton
@@ -107,6 +107,15 @@ class AddItemDialog(QDialog):
 
             # Gather the chemical section data from the form if the chemical section is visible
             if self.chemical_flag_1:
+                for field in self.chemical_section.findChildren(FormLabelTextWidgetExtraWide):
+                    if field.txt.text() == "":
+                        # If field is empty
+                        complete_flag = False
+                        
+                    else:
+                        # Otherwise add the field value to the list
+                        field_values_chem_txt.append(field.txt.text())
+
                 for field in self.chemical_section.findChildren(FormLabelTextWidget):
                     if field.txt.text() == "":
                         # If field is empty

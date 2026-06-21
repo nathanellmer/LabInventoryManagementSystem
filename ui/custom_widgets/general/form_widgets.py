@@ -41,6 +41,25 @@ class FormLabelTextWidgetWide(QHBoxLayout):
         self.addWidget(self.txt)
 
 
+# Form label/line edit widget for the application (extra widened)
+class FormLabelTextWidgetExtraWide(QHBoxLayout):
+    def __init__(self, lbl_text: str):
+        super().__init__()
+
+        # Create a label and line edit
+        self.lbl = QLabel(lbl_text)
+        self.txt = QLineEdit()
+
+        # Set properties for the label and line edit
+        self.lbl.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+        self.lbl.setProperty("role", "std_form_lbl")
+        self.txt.setProperty("role", "extra_wide_form_txt")
+
+        # Add the label and line edit to the layout
+        self.addWidget(self.lbl)
+        self.addWidget(self.txt)
+
+
 # Form label/combo widget for the application (widened)
 class FormLabelComboWidgetWide(QHBoxLayout):
     def __init__(self, lbl_text: str):

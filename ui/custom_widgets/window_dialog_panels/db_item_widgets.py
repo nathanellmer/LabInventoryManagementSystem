@@ -1,7 +1,7 @@
 from PySide6.QtWidgets import QCheckBox, QHBoxLayout, QWidget, QGridLayout, QVBoxLayout, QLabel
 from PySide6.QtGui import QPixmap, QTransform
 from PySide6.QtCore import Qt
-from ui.custom_widgets.general.form_widgets import FormLabelTextWidget, FormLabelTextWidgetWide, FormLabelComboWidgetWide, FormLabelLinkButton, FormLabelCheckBox
+from ui.custom_widgets.general.form_widgets import FormLabelTextWidget, FormLabelTextWidgetWide, FormLabelTextWidgetExtraWide, FormLabelComboWidgetWide, FormLabelLinkButton, FormLabelCheckBox
 from ui.dialogs.add_supplier_dialog import AddSupplierDialog
 from ui.dialogs.add_storage_locations_dialog import AddStorageLocationsDialog
 from core.db_get_functions import get_all_suppliers, get_all_storage_locations
@@ -149,7 +149,7 @@ class ItemsChemicalPanelWidget(QWidget):
         # Add a form label/line edit widget for the new item quartzy reference
         central_layout = QHBoxLayout()
         central_layout.addStretch()
-        self.item_quartzy_ref = FormLabelTextWidget("Quartzy Reference:")
+        self.item_quartzy_ref = FormLabelTextWidgetExtraWide("Quartzy Reference:")
         central_layout.addLayout(self.item_quartzy_ref)
         central_layout.addStretch()
         form_panel_layout.addLayout(central_layout)
@@ -213,7 +213,7 @@ class ItemsChemicalDisplayPanelWidget(QWidget):
         # Add a form label/line edit widget for the new item quartzy reference
         central_layout = QHBoxLayout()
         central_layout.addStretch()
-        self.item_quartzy_ref = FormLabelTextWidget("Quartzy Reference:")
+        self.item_quartzy_ref = FormLabelTextWidgetExtraWide("Quartzy Reference:")
         central_layout.addLayout(self.item_quartzy_ref)
         central_layout.addStretch()
         form_panel_layout.addLayout(central_layout)

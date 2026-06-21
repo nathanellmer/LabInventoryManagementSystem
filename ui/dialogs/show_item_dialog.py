@@ -1,6 +1,6 @@
 from PySide6.QtWidgets import QDialog, QVBoxLayout
 from PySide6.QtCore import Qt, Signal
-from ui.custom_widgets.general.form_widgets import FormLabelComboWidgetWide, FormLabelLinkButton, FormLabelTextWidget, FormLabelTextWidgetWide
+from ui.custom_widgets.general.form_widgets import FormLabelComboWidgetWide, FormLabelLinkButton, FormLabelTextWidget, FormLabelTextWidgetExtraWide, FormLabelTextWidgetWide
 from ui.custom_widgets.general.header_widgets import FormHeaderWidget
 from ui.custom_widgets.general.footer_widgets import FormFooterWidget
 from ui.custom_widgets.general.button_widgets import MainMenuButton
@@ -86,7 +86,7 @@ class ShowItemDialog(QDialog):
             self.chemical_flag_1 = True
 
             info_idx = [14]
-            for idx, field in enumerate(self.chemical_section.findChildren(FormLabelTextWidget)):
+            for idx, field in enumerate(self.chemical_section.findChildren(FormLabelTextWidgetExtraWide)):
                 field.txt.setText(item_info[info_idx[idx]])
 
             info_idx = [15, 16]

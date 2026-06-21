@@ -8,7 +8,7 @@ from core.utility_functions import resource_path
 class FooterLabel(QLabel):
     def __init__(self):
         super().__init__()
-        self.setText("Lab Inventory Management System - Developed by Nathan Ellmer")
+        self.setText("Lab Inventory Management System - LIMS v0.1 - Developed by Nathan Ellmer")
         self.setProperty("role", "universal_footer_lbl")
         self.setAlignment(Qt.AlignCenter)
 
