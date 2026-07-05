@@ -51,3 +51,8 @@ QPushButton[role="hyperlink_btn"] {
     min-width: 350px;
     text-align: left;
 }
+
+QTableWidget[role="form_csv_table"] {
+    min-height: 200px;
+    max-height: 500px;
+}

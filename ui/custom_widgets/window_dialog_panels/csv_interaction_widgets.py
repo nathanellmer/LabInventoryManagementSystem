@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QTableWidget
+from PySide6.QtWidgets import QSizePolicy, QWidget, QVBoxLayout, QHBoxLayout, QTableWidget
 from ui.custom_widgets.general.button_widgets import MainMenuButton
 
 # Panel widget for the csv interaction
@@ -24,6 +24,7 @@ class CSVPanelWidget(QWidget):
 
         # Add a table widget
         self.csv_table = QTableWidget()
+        self.csv_table.setProperty("role", "form_csv_table")
         form_panel_layout.addWidget(self.csv_table)
 
         # Set the main layout for the widget

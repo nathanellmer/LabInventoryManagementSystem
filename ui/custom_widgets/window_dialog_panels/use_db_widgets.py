@@ -3,9 +3,11 @@ from PySide6.QtWidgets import QWidget, QVBoxLayout, QGridLayout
 from PySide6.QtCore import Qt
 from ui.custom_widgets.general.button_widgets import MainMenuButton, MainMenuDropdownPanelWidget
 from ui.custom_widgets.general.label_widgets import InfoLabel
+from ui.dialogs.generate_blank_supplier_form import GenerateBlankSupplierFormDialog
 from ui.dialogs.msg_dialog import MsgDialog
 from ui.dialogs.search_items_dialog import SearchItemDialog
 from ui.dialogs.generate_order_forms_dialog import GenerateOrderFormsDialog
+
 from core.db_get_functions import get_users_db_fieldnames, get_all_users_info, get_suppliers_db_fieldnames, get_all_suppliers_info, get_grant_codes_db_fieldnames, get_all_grant_codes_info, get_locations_db_fieldnames, get_all_locations_info, get_items_db_fieldnames, get_all_items_info
 
 # Panel widget for the use database menu
@@ -28,6 +30,7 @@ class UseDBBtnPanelWidget(QWidget):
         grid_layout.addWidget(MainMenuButton("Export All Databases", self.export_all_databases), 0, 0, alignment=Qt.AlignCenter)
         grid_layout.addWidget(MainMenuButton("Search All Items", self.open_search_items_dialog), 0, 1, alignment=Qt.AlignCenter)
         grid_layout.addWidget(MainMenuButton("Generate Order Form", self.open_generate_order_forms_dialog), 0, 2, alignment=Qt.AlignCenter)
+        grid_layout.addWidget(MainMenuButton("Generate Supplier Form", self.open_generate_blank_supplier_form_dialog), 1, 1, alignment=Qt.AlignCenter)
 
         # Add the grid layout to the panel layout
         panel_layout.addLayout(grid_layout)
@@ -55,6 +58,11 @@ class UseDBBtnPanelWidget(QWidget):
     def open_generate_order_forms_dialog(self):
         generate_order_forms_dialog = GenerateOrderFormsDialog()
         generate_order_forms_dialog.exec()
+
+
+    def open_generate_blank_supplier_form_dialog(self):
+        generate_blank_supplier_form_dialog = GenerateBlankSupplierFormDialog()
+        generate_blank_supplier_form_dialog.exec()
 
 
     def export_users(self, msg_dialog=True):

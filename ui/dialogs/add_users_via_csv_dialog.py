@@ -30,7 +30,7 @@ class AddUsersCSVDialog(QDialog):
 
         # Add the CSV panel widget
         self.csv_panel = CSVPanelWidget(self.btn_blank_csv, self.btn_upload_csv)
-        add_users_csv_dialog_layout.addWidget(self.csv_panel)
+        add_users_csv_dialog_layout.addWidget(self.csv_panel, stretch=1)
 
         # Add spacing
         add_users_csv_dialog_layout.addSpacing(10)
