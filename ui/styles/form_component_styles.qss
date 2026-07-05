@@ -42,3 +42,12 @@ QComboBox[role="wide_form_cmb"] {
 QScrollArea {
     border: none;
 }
+
+QPushButton[role="hyperlink_btn"] {
+    background-color: none;
+    color: %(universal_btn_link_color)s;
+    border: none;
+    font-size: 14px;
+    min-width: 350px;
+    text-align: left;
+}

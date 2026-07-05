@@ -1,16 +1,17 @@
 from PySide6.QtWidgets import QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QWidget, QComboBox, QPushButton, QCheckBox
-from PySide6.QtCore import Qt
+from PySide6.QtCore import QUrl, Qt
+from PySide6.QtGui import QDesktopServices
 from ui.custom_widgets.general.label_widgets import InfoLabel
 from ui.custom_widgets.general.button_widgets import MainMenuButton
 
 # Form label/line edit widget for the application
 class FormLabelTextWidget(QHBoxLayout):
-    def __init__(self, lbl_text: str):
+    def __init__(self, lbl_text: str, read_only: bool = False):
         super().__init__()
 
         # Create a label and line edit
         self.lbl = QLabel(lbl_text)
-        self.txt = QLineEdit()
+        self.txt = QLineEdit(readOnly=read_only)
 
         # Set properties for the label and line edit
         self.lbl.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
@@ -24,12 +25,12 @@ class FormLabelTextWidget(QHBoxLayout):
 
 # Form label/line edit widget for the application (widened)
 class FormLabelTextWidgetWide(QHBoxLayout):
-    def __init__(self, lbl_text: str):
+    def __init__(self, lbl_text: str, read_only: bool = False):
         super().__init__()
 
         # Create a label and line edit
         self.lbl = QLabel(lbl_text)
-        self.txt = QLineEdit()
+        self.txt = QLineEdit(readOnly=read_only)
 
         # Set properties for the label and line edit
         self.lbl.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
@@ -43,12 +44,12 @@ class FormLabelTextWidgetWide(QHBoxLayout):
 
 # Form label/line edit widget for the application (extra widened)
 class FormLabelTextWidgetExtraWide(QHBoxLayout):
-    def __init__(self, lbl_text: str):
+    def __init__(self, lbl_text: str, read_only: bool = False):
         super().__init__()
 
         # Create a label and line edit
         self.lbl = QLabel(lbl_text)
-        self.txt = QLineEdit()
+        self.txt = QLineEdit(readOnly=read_only)
 
         # Set properties for the label and line edit
         self.lbl.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
@@ -62,7 +63,7 @@ class FormLabelTextWidgetExtraWide(QHBoxLayout):
 
 # Form label/combo widget for the application (widened)
 class FormLabelComboWidgetWide(QHBoxLayout):
-    def __init__(self, lbl_text: str):
+    def __init__(self, lbl_text: str, read_only: bool = False):
         super().__init__()
         
         # Create a label and line edit
@@ -81,7 +82,7 @@ class FormLabelComboWidgetWide(QHBoxLayout):
 
 # Form label/link button widget for the application
 class FormLabelLinkButton(QHBoxLayout):
-    def __init__(self, btn_text: str, on_click=None):
+    def __init__(self, btn_text: str, on_click=None, lbl_text: str = ""):
         super().__init__()
 
         # Create a label and line edit
@@ -91,6 +92,7 @@ class FormLabelLinkButton(QHBoxLayout):
         # Set properties for the label and line edit
         self.lbl.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
         self.lbl.setProperty("role", "std_form_lbl")
+        self.lbl.setText(lbl_text)
         self.btn.setText(btn_text)
         self.btn.setProperty("role", "universal_link_btn")
 
@@ -100,6 +102,38 @@ class FormLabelLinkButton(QHBoxLayout):
         
         if on_click:
             self.btn.clicked.connect(on_click)
+
+
+# Form label/hyperlink button widget for the application
+class FormLabelHyperlinkButton(QHBoxLayout):
+    def __init__(self, btn_text: str, lbl_text: str = ""):
+        super().__init__()
+
+        # Create a label and line edit
+        self.lbl = QLabel()
+        self.btn = QPushButton()
+
+        # Set properties for the label and line edit
+        self.lbl.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+        self.lbl.setProperty("role", "std_form_lbl")
+        self.lbl.setText(lbl_text)
+        self.btn.setText(btn_text)
+        self.btn.setProperty("role", "hyperlink_btn")
+        self.url = ""
+        self.btn.clicked.connect(self.open_link)
+
+        # Add the label and button to the layout
+        self.addWidget(self.lbl)
+        self.addWidget(self.btn)
+
+
+    def set_url(self, url: str):
+        self.url = url
+
+
+    def open_link(self):
+        if self.url:
+            QDesktopServices.openUrl(QUrl(self.url))
 
 
 # Form label/check box widget for the application

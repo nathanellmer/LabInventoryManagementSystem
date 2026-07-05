@@ -1,7 +1,8 @@
 from PySide6.QtWidgets import QCheckBox, QHBoxLayout, QWidget, QGridLayout, QVBoxLayout, QLabel
 from PySide6.QtGui import QPixmap, QTransform
-from PySide6.QtCore import Qt
-from ui.custom_widgets.general.form_widgets import FormLabelTextWidget, FormLabelTextWidgetWide, FormLabelTextWidgetExtraWide, FormLabelComboWidgetWide, FormLabelLinkButton, FormLabelCheckBox
+from PySide6.QtCore import Qt, QUrl
+from PySide6.QtGui import QDesktopServices
+from ui.custom_widgets.general.form_widgets import FormLabelHyperlinkButton, FormLabelTextWidget, FormLabelTextWidgetWide, FormLabelTextWidgetExtraWide, FormLabelComboWidgetWide, FormLabelLinkButton, FormLabelCheckBox
 from ui.dialogs.add_supplier_dialog import AddSupplierDialog
 from ui.dialogs.add_storage_locations_dialog import AddStorageLocationsDialog
 from core.db_get_functions import get_all_suppliers, get_all_storage_locations
@@ -108,6 +109,65 @@ class ItemsPanelWidget(QWidget):
         add_storage_location_dialog = AddStorageLocationsDialog()
         add_storage_location_dialog.exec()
         self.load_storage_locations()
+
+
+# READ ONLY Panel widget for the items based database information
+class ReadOnlyItemsPanelWidget(QWidget):
+    def __init__(self):
+        super().__init__()
+        # Set form layout
+        form_panel_layout = QGridLayout()
+
+        # Add a form label/line edit widget for the new item name
+        self.item_name = FormLabelTextWidgetWide("Name:", read_only=True)
+        form_panel_layout.addLayout(self.item_name, 0, 0)
+
+        # Add a form label/line edit widget for the new item supplier
+        self.item_supplier = FormLabelTextWidgetWide("Supplier:", read_only=True)
+        form_panel_layout.addLayout(self.item_supplier, 1, 0)
+
+        # Add a form label/line edit widget for the new item product number
+        self.item_product_number = FormLabelTextWidgetWide("Product Number:", read_only=True)
+        form_panel_layout.addLayout(self.item_product_number, 2, 0)
+
+        # Add a form label/line edit widget for the new item description
+        self.item_description = FormLabelTextWidgetWide("Description:", read_only=True)
+        form_panel_layout.addLayout(self.item_description, 3, 0)
+
+        # Add a form label/line edit widget for the new item size
+        self.item_size = FormLabelTextWidgetWide("Size/Volume:", read_only=True)
+        form_panel_layout.addLayout(self.item_size, 4, 0)
+
+        # Add a form label/line edit widget for the new item quantity
+        self.item_quantity = FormLabelTextWidgetWide("Quantity:", read_only=True)
+        form_panel_layout.addLayout(self.item_quantity, 5, 0)
+
+        # Add a form label/line edit widget for the new item unit cost
+        self.item_unit_cost = FormLabelTextWidgetWide("Unit Cost:", read_only=True)
+        form_panel_layout.addLayout(self.item_unit_cost, 0, 1)
+
+        # Add a form label/line edit widget for the new item storage location
+        self.item_storage_location = FormLabelTextWidgetWide("Storage Location:", read_only=True)
+        form_panel_layout.addLayout(self.item_storage_location, 1, 1)
+
+        # Add a form label/line edit widget for the new item website
+        self.item_website = FormLabelHyperlinkButton("hyperlink", "Website:")
+        form_panel_layout.addLayout(self.item_website, 2, 1)
+
+        # Add a checkbox widget for the new item reorder flag
+        self.item_reorder_flag = FormLabelCheckBox("Reorder Flag:")
+        form_panel_layout.addLayout(self.item_reorder_flag, 3, 1, alignment=Qt.AlignLeft)
+
+        # Add item category 
+        self.item_category = FormLabelTextWidgetWide("Category:", read_only=True)
+        form_panel_layout.addLayout(self.item_category, 4, 1)
+
+        # Add item notes
+        self.item_notes = FormLabelTextWidgetWide("Notes:", read_only=True)
+        form_panel_layout.addLayout(self.item_notes, 5, 1)
+
+        # Set the main layout for the widget
+        self.setLayout(form_panel_layout)
 
 
 # Pictogram widget

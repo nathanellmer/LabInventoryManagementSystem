@@ -9,7 +9,7 @@ from ui.custom_widgets.general.form_widgets import FormSearchPanelWidget, FormLa
 from ui.dialogs.add_grant_codes_dialog import AddGrantCodesDialog
 from ui.dialogs.choice_selection_dialog import ChoiceSelectionDialogTwo, ChoiceSelectionDialogFour
 from ui.dialogs.show_item_dialog import ShowItemDialog
-from core.control_functions import controller
+from core.control_functions import controller, db_info
 from core.db_get_functions import get_item_info_by_product_code, get_item_info_by_supplier, get_item_info_by_description, get_item_info_by_name, get_items_info_by_reorder_flag, get_supplier_info_by_id, get_storage_location_info_by_id, get_grant_code_info_by_grant_code_name, get_grant_code_info_by_grant_code_owner, get_item_info_by_id, get_user_info_by_username, get_grant_code_info_by_id
 from core.utility_functions import resource_path
 
@@ -265,4 +265,4 @@ class GenerateOrderFormsDialog(QDialog):
             ws[f"C{row}"] = item_info[4]
             ws[f"H{row}"] = item_info[8]
 
-        wb.save(f"Engineering_Order_Form_{supplier_info[1]}.xlsx")
+        wb.save(f"{db_info.SAVE_PATH}Engineering_Order_Form_{supplier_info[1]}.xlsx")

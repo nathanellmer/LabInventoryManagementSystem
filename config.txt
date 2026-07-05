@@ -1,4 +1,5 @@
 DB_PATH = "database/inventory_db.db"
 PREPURCHASE_PATH = ""
 MSDS_PATH = ""
+SAVE_PATH = ""
 COLOUR_SCHEME = "LIGHT"

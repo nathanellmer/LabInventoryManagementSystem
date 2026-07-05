@@ -2,13 +2,15 @@ from PySide6.QtWidgets import QLabel, QPushButton, QVBoxLayout, QWidget
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QPixmap
 from core.control_functions import controller
+from core.control_functions import db_info
 from core.utility_functions import resource_path
+from ui.styles.load_themes import THEMES
 
 # Footer label widget for the application
 class FooterLabel(QLabel):
     def __init__(self):
         super().__init__()
-        self.setText("Lab Inventory Management System - LIMS v0.1 - Developed by Nathan Ellmer")
+        self.setText("Lab Inventory Management System - LIMS v0.3 - Developed by Nathan Ellmer")
         self.setProperty("role", "universal_footer_lbl")
         self.setAlignment(Qt.AlignCenter)
 
@@ -17,7 +19,8 @@ class FooterLabel(QLabel):
 class SULogoLabel(QLabel):
     def __init__(self):
         super().__init__()
-        pixmap = QPixmap(resource_path("assets/SU_logo.png"))
+        theme = THEMES.get(db_info.COLOUR_SCHEME)
+        pixmap = QPixmap(theme["logo"])
         self.setPixmap(pixmap.scaledToWidth(150, Qt.SmoothTransformation))
         self.setAlignment(Qt.AlignCenter)
         self.setFixedHeight(150)
