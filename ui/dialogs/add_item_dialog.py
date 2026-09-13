@@ -4,11 +4,12 @@ from ui.custom_widgets.general.form_widgets import FormLabelComboWidgetWide, For
 from ui.custom_widgets.general.header_widgets import FormHeaderWidget
 from ui.custom_widgets.general.footer_widgets import FormFooterWidget
 from ui.custom_widgets.general.button_widgets import MainMenuButton
-from ui.custom_widgets.window_dialog_panels.db_item_widgets import ItemsPanelWidget, ItemsChemicalPanelWidget, FormLabelCheckBox, PictogramWidget
+from ui.custom_widgets.window_dialog_panels.db_item_widgets import HazardousItemsChemicalPanelWidget, ItemsPanelWidget, ItemsChemicalPanelWidget, FormLabelCheckBox, NonHazardousItemsChemicalPanelWidget, PictogramWidget
 from ui.dialogs.msg_dialog import MsgDialog
 from core.control_functions import controller
 from core.db_add_functions import add_item_to_db
 from core.db_get_functions import get_user_info_by_username, get_supplier_info_by_name, get_storage_location_info_by_name
+
 
 class AddItemDialog(QDialog):
     def __init__(self):
@@ -36,11 +37,19 @@ class AddItemDialog(QDialog):
         add_item_dialog_layout.addSpacing(10)
 
         # Add the chemical section widget to the add item dialog layout
-        self.chemical_flag_1 = False
-        self.chemical_flag_2 = False
-        self.chemical_section = ItemsChemicalPanelWidget()
-        add_item_dialog_layout.addWidget(self.chemical_section)
-        self.chemical_section.hide()
+        self.non_hazardous_chemical_section = NonHazardousItemsChemicalPanelWidget()
+        add_item_dialog_layout.addWidget(self.non_hazardous_chemical_section)
+        self.non_hazardous_chemical_section.hide()
+        self.chemical_flag = False
+
+        # Add spacing
+        add_item_dialog_layout.addSpacing(10)
+
+        # Add the chemical section widget to the add item dialog layout
+        self.hazardous_chemical_section = HazardousItemsChemicalPanelWidget()
+        add_item_dialog_layout.addWidget(self.hazardous_chemical_section)
+        self.hazardous_chemical_section.hide()
+        self.item_form.item_category.cmb.currentTextChanged.connect(self.toggle_chemical_section)
 
         # Add a proceed button
         add_item_dialog_layout.addWidget(MainMenuButton("Proceed", self.btn_proceed), alignment=Qt.AlignCenter)
@@ -54,6 +63,21 @@ class AddItemDialog(QDialog):
 
         # Set the main layout for the window
         self.setLayout(add_item_dialog_layout)
+
+
+    def toggle_chemical_section(self):
+        if self.item_form.item_category.cmb.currentText() == "Hazardous Chemical":
+            self.hazardous_chemical_section.show()
+            self.non_hazardous_chemical_section.show()
+            self.chemical_flag = True
+        elif self.item_form.item_category.cmb.currentText() == "Non-hazardous Chemical":
+            self.hazardous_chemical_section.hide()
+            self.non_hazardous_chemical_section.show()
+            self.chemical_flag = True
+        else:
+            self.hazardous_chemical_section.hide()
+            self.non_hazardous_chemical_section.hide()
+            self.chemical_flag = False
         
 
     def btn_proceed(self):
@@ -67,96 +91,40 @@ class AddItemDialog(QDialog):
         compulsory_fields = [True, True, True, True, True, False, True, False]
         compulsory_dropdowns = ["Select Supplier...", "Select Storage Location...", "Select Category..."]
 
-        # Check if the chemical section needs to be filled in and show/hide the chemical section accordingly
-        self.check_chemical()
+        # Gather the text data from the form
+        for idx, field in enumerate(self.item_form.findChildren(FormLabelTextWidgetWide)):
+            field_values_txt.append(field.txt.text())
 
-        if self.chemical_flag_2:
-            self.chemical_section.show()
+        # Gather the dropdown data from the form
+        for idx, field in enumerate(self.item_form.findChildren(FormLabelComboWidgetWide)):
+            field_values_cmb.append(field.cmb.currentText())
+
+        # Gather the checkbox data from the form
+        for field in self.item_form.findChildren(FormLabelCheckBox):
+            field_values_chb.append(field.chb.isChecked())
+
+        # Gather chemical data
+        if self.chemical_flag:
+            for field in self.hazardous_chemical_section.findChildren(FormLabelTextWidgetExtraWide):
+                field_values_chem_txt.append(field.txt.text())
+
+            for field in self.non_hazardous_chemical_section.findChildren(FormLabelTextWidget):
+                field_values_chem_txt.append(field.txt.text())
+            
+            for field in self.hazardous_chemical_section.findChildren(PictogramWidget):
+                field_values_hazards.append(field.chb.isChecked())
         else:
-            self.chemical_section.hide()
-
-        if self.chemical_flag_1 == self.chemical_flag_2:
-
-            # Gather the text data from the form
-            for idx, field in enumerate(self.item_form.findChildren(FormLabelTextWidgetWide)):
-                if field.txt.text() == "":
-                    if compulsory_fields[idx]:
-                        # If field is empty
-                        complete_flag = False
-                    else:
-                        # If field is empty but not compulsory, add an empty string to the list
-                        field_values_txt.append("")
-                    
-                else:
-                    # Otherwise add the field value to the list
-                    field_values_txt.append(field.txt.text())
-
-            # Gather the dropdown data from the form
-            for idx, field in enumerate(self.item_form.findChildren(FormLabelComboWidgetWide)):
-                if field.cmb.currentText() == compulsory_dropdowns[idx]:
-                    # If field is empty
-                    complete_flag = False
-                    
-                else:
-                    # Otherwise add the field value to the list
-                    field_values_cmb.append(field.cmb.currentText())
-
-            # Gather the checkbox data from the form
-            for field in self.item_form.findChildren(FormLabelCheckBox):
-                field_values_chb.append(field.chb.isChecked())
-
-            # Gather the chemical section data from the form if the chemical section is visible
-            if self.chemical_flag_1:
-                for field in self.chemical_section.findChildren(FormLabelTextWidgetExtraWide):
-                    if field.txt.text() == "":
-                        # If field is empty
-                        complete_flag = False
-                        
-                    else:
-                        # Otherwise add the field value to the list
-                        field_values_chem_txt.append(field.txt.text())
-
-                for field in self.chemical_section.findChildren(FormLabelTextWidget):
-                    if field.txt.text() == "":
-                        # If field is empty
-                        complete_flag = False
-                        
-                    else:
-                        # Otherwise add the field value to the list
-                        field_values_chem_txt.append(field.txt.text())
-
-                for field in self.chemical_section.findChildren(PictogramWidget):
-                    field_values_hazards.append(field.chb.isChecked())
-
-            else:
-                # If the chemical section is not visible, add empty values for the quartzy reference and hazard checkboxes
-                field_values_chem_txt = [""] * 3
-                field_values_hazards = [False] * 9
-
-            if complete_flag:
-                # Add the new item to the database
-                user_name = controller.logged_in_user
-                user_info = get_user_info_by_username(user_name)
-                supplier_info = get_supplier_info_by_name(field_values_cmb[0])
-                storage_location_info = get_storage_location_info_by_name(field_values_cmb[1])
-                dialog_close = add_item_to_db(field_values_txt, field_values_cmb, field_values_chb, field_values_chem_txt, field_values_hazards, user_info[0], supplier_info[0], storage_location_info[0][0])
-
-                # Close the dialog
-                if dialog_close:
-                    self.close()
-            else:
-                # If any field is empty, show an error message
-                msg_dialog = MsgDialog("Input Error", "Please fill in all fields.", "OK")
-                msg_dialog.exec_()
-
-        else:
-            self.chemical_flag_1 = self.chemical_flag_2
+            field_values_chem_txt = [""] * 3
+            field_values_hazards = [False] * 9
 
 
-    def check_chemical(self):
-        if self.item_form.item_category.cmb.currentText() == "Hazardous Chemical":
-            self.chemical_flag_2 = True
-        else:
-            self.chemical_flag_2 = False
+        # Add the new item to the database
+        user_name = controller.logged_in_user
+        user_info = get_user_info_by_username(user_name)
+        supplier_info = get_supplier_info_by_name(field_values_cmb[0])
+        storage_location_info = get_storage_location_info_by_name(field_values_cmb[1])
+        dialog_close = add_item_to_db(field_values_txt, field_values_cmb, field_values_chb, field_values_chem_txt, field_values_hazards, user_info[0], supplier_info[0], storage_location_info[0][0])
 
-    
+        # Close the dialog
+        if dialog_close:
+            self.close()

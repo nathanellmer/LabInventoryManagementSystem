@@ -4,10 +4,10 @@ from ui.custom_widgets.general.header_widgets import FormHeaderWidget
 from ui.custom_widgets.general.footer_widgets import FormFooterWidget
 from ui.custom_widgets.general.button_widgets import MainMenuButton
 from ui.custom_widgets.general.form_widgets import FormLabelCheckBox, FormLabelComboWidgetWide, FormLabelTextWidgetExtraWide, FormLabelTextWidgetWide, FormSearchPanelWidget, FormLabelTextWidget
-from ui.custom_widgets.window_dialog_panels.db_item_widgets import ItemsPanelWidget, ItemsChemicalPanelWidget, PictogramWidget
+from ui.custom_widgets.window_dialog_panels.db_item_widgets import HazardousItemsChemicalPanelWidget, ItemsPanelWidget, ItemsChemicalPanelWidget, NonHazardousItemsChemicalPanelWidget, PictogramWidget, ReadOnlyItemUpdateInfoWidget
 from ui.dialogs.choice_selection_dialog import ChoiceSelectionDialogFour
 from core.control_functions import controller
-from core.db_get_functions import get_item_info_by_product_code, get_item_info_by_supplier, get_item_info_by_description, get_item_info_by_name, get_supplier_info_by_id, get_storage_location_info_by_id, get_user_info_by_username, get_supplier_info_by_name, get_storage_location_info_by_name
+from core.db_get_functions import get_item_info_by_product_code, get_item_info_by_supplier, get_item_info_by_description, get_item_info_by_name, get_supplier_info_by_id, get_storage_location_info_by_id, get_user_info_by_username, get_supplier_info_by_name, get_storage_location_info_by_name, get_username_by_id
 from core.db_delete_functions import delete_item_from_db
 
 class DeleteItemDialog(QDialog):
@@ -41,18 +41,31 @@ class DeleteItemDialog(QDialog):
         del_item_dialog_layout.addStretch()
 
         # Add the items panel widget to the delete item dialog layout
+        self.item_info = ReadOnlyItemUpdateInfoWidget()
+        del_item_dialog_layout.addWidget(self.item_info, alignment=Qt.AlignCenter)
+
+        # Add spacing
+        del_item_dialog_layout.addSpacing(10)
+
+        # Add the items panel widget to the delete item dialog layout
         self.item_form = ItemsPanelWidget()
         del_item_dialog_layout.addWidget(self.item_form, alignment=Qt.AlignCenter)
 
         # Add spacing
         del_item_dialog_layout.addSpacing(10)
 
-        # Add the chemical section widget to the delete item dialog layout
-        self.chemical_flag_1 = False
-        self.chemical_flag_2 = False
-        self.chemical_section = ItemsChemicalPanelWidget()
-        del_item_dialog_layout.addWidget(self.chemical_section)
-        self.chemical_section.hide()
+        # Add the chemical section widget to the add item dialog layout
+        self.non_hazardous_chemical_section = NonHazardousItemsChemicalPanelWidget()
+        del_item_dialog_layout.addWidget(self.non_hazardous_chemical_section)
+        self.non_hazardous_chemical_section.hide()
+
+        # Add spacing
+        del_item_dialog_layout.addSpacing(10)
+
+        # Add the chemical section widget to the add item dialog layout
+        self.hazardous_chemical_section = HazardousItemsChemicalPanelWidget()
+        del_item_dialog_layout.addWidget(self.hazardous_chemical_section)
+        self.hazardous_chemical_section.hide()
 
         # Add a proceed button
         del_item_dialog_layout.addWidget(MainMenuButton("Proceed", self.btn_proceed), alignment=Qt.AlignCenter)
@@ -137,26 +150,38 @@ class DeleteItemDialog(QDialog):
             field = self.item_form.findChildren(FormLabelCheckBox)[0]
             field.chb.setChecked(selected_item[info_idx])
 
-            self.originator_id = selected_item[11]
+            # Populate item info panel
+            originator_username = get_username_by_id(selected_item[11])
+            updater_username = get_username_by_id(selected_item[27])
+
+            item_info_store = [originator_username, selected_item[26], updater_username, selected_item[28]]
+
+            for idx, field in enumerate(self.item_info.findChildren(FormLabelTextWidgetWide)):
+                field.txt.setText(str(item_info_store[idx]))
 
             # If the item is a chemical, show the chemical section and populate the chemical information
-            if selected_item[12] == "Hazardous Chemical":
-                self.chemical_section.show()
-                self.chemical_flag_1 = True
+            if selected_item[12] == "Non-hazardous Chemical":
+                self.non_hazardous_chemical_section.show()
 
+                info_idx = [15, 16]
+                for idx, field in enumerate(self.non_hazardous_chemical_section.findChildren(FormLabelTextWidget)):
+                    field.txt.setText(selected_item[info_idx[idx]])
+
+            if selected_item[12] == "Hazardous Chemical":
+                self.non_hazardous_chemical_section.show()
+                self.hazardous_chemical_section.show()
+                
                 info_idx = [14]
-                for idx, field in enumerate(self.chemical_section.findChildren(FormLabelTextWidgetExtraWide)):
+                for idx, field in enumerate(self.hazardous_chemical_section.findChildren(FormLabelTextWidgetExtraWide)):
                     field.txt.setText(selected_item[info_idx[idx]])
 
                 info_idx = [15, 16]
-                for idx, field in enumerate(self.chemical_section.findChildren(FormLabelTextWidget)):
+                for idx, field in enumerate(self.non_hazardous_chemical_section.findChildren(FormLabelTextWidget)):
                     field.txt.setText(selected_item[info_idx[idx]])
 
                 info_idx = [17, 18, 19, 20, 21, 22, 23, 24, 25]
-                for idx, field in enumerate(self.chemical_section.findChildren(PictogramWidget)):
+                for idx, field in enumerate(self.hazardous_chemical_section.findChildren(PictogramWidget)):
                     field.chb.setChecked(selected_item[info_idx[idx]])
-            else:
-                self.chemical_section.hide()
 
 
     def btn_proceed(self):
@@ -166,10 +191,3 @@ class DeleteItemDialog(QDialog):
         # Delete the storage location from the database
         delete_item_from_db(item_id)
         self.close()
-
-
-    def check_chemical(self):
-        if self.item_form.item_category.cmb.currentText() == "Hazardous Chemical":
-            self.chemical_flag_2 = True
-        else:
-            self.chemical_flag_2 = False

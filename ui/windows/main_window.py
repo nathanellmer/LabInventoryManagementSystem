@@ -3,6 +3,7 @@ from PySide6.QtCore import Qt
 from ui.custom_widgets.general.header_widgets import MainMenuHeaderWidget
 from ui.custom_widgets.general.footer_widgets import MainMenuFooterWidget
 from ui.custom_widgets.general.button_widgets import MainMenuButton
+from ui.dialogs.shopping_list_dialog import ShoppingListDialog
 from ui.windows.edit_db_window import EditDBWindow
 from ui.windows.use_db_window import UseDBWindow
 from core.control_functions import controller
@@ -34,6 +35,12 @@ class MainWindow(QWidget):
         # Add a button to move to use database menu
         main_window_layout.addWidget(MainMenuButton("Use Database", self.btn_use_db), alignment=Qt.AlignCenter)
 
+        # Add spacing
+        main_window_layout.addSpacing(10)
+
+        # Add a button to move to shopping list dialog
+        main_window_layout.addWidget(MainMenuButton("Shopping List", self.btn_shopping_list), alignment=Qt.AlignCenter)
+
         # Add stretch
         main_window_layout.addStretch()
 
@@ -55,4 +62,9 @@ class MainWindow(QWidget):
         # Open the menu to use the database
         self.use_db_window = UseDBWindow()
         self.use_db_window.show()
-            
+
+
+    def btn_shopping_list(self):
+        # Open the shopping list dialog
+        self.shopping_list_dialog = ShoppingListDialog()
+        self.shopping_list_dialog.show()

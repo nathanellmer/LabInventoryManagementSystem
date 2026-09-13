@@ -100,3 +100,17 @@ def delete_item_from_db(item_id):
 
     # Close the connection
     conn.close()
+
+
+# Delete shopping list item information in the database using item_id
+def delete_shopping_list_item_from_db(item_id):
+    # Setup connection
+    conn = get_db_connection(db_info.DB_PATH)
+    cursor = conn.cursor()
+
+    # Execute sql command and catch any integrity errors (e.g. if the supplier already exists in the database)
+    cursor.execute("DELETE FROM ShoppingList WHERE ItemID = ?", (item_id,))
+    conn.commit()
+
+    # Close the connection
+    conn.close()

@@ -1,3 +1,4 @@
+from datetime import datetime
 import sqlite3
 from core.control_functions import db_info
 from core.setup_functions import get_db_connection
@@ -142,7 +143,7 @@ def add_item_to_db(field_values_txt, field_values_cmb, field_values_chb, field_v
 
     # Execute sql command and catch any integrity errors (e.g. if the storage location already exists in the database)
     try:
-        cursor.execute("INSERT INTO Items (ItemName, ItemSupplier, ItemRef, ItemDescription, ItemSize, ItemQuantity, ItemStorageLocation, ItemUnitCost, ItemWebsite, ItemReorderFlag, ItemOriginator, ItemCategory, ItemNotes, ItemQuartzyRef, ItemPrepurchase, ItemMSDS, ItemGHS1, ItemGHS2, ItemGHS3, ItemGHS4, ItemGHS5, ItemGHS6, ItemGHS7, ItemGHS8, ItemGHS9) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", (item_name, supplier_id, item_prod_no, item_description, item_size, item_quantity, storage_location_id, item_cost, item_website, item_reorder, user_id, item_category, item_notes, item_quartzy, item_prepurchase, item_msds, ghs_01, ghs_02, ghs_03, ghs_04, ghs_05, ghs_06, ghs_07, ghs_08, ghs_09))
+        cursor.execute("INSERT INTO Items (ItemName, ItemSupplier, ItemRef, ItemDescription, ItemSize, ItemQuantity, ItemStorageLocation, ItemUnitCost, ItemWebsite, ItemReorderFlag, ItemOriginator, ItemCategory, ItemNotes, ItemQuartzyRef, ItemPrepurchase, ItemMSDS, ItemGHS1, ItemGHS2, ItemGHS3, ItemGHS4, ItemGHS5, ItemGHS6, ItemGHS7, ItemGHS8, ItemGHS9, ItemUpdater) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", (item_name, supplier_id, item_prod_no, item_description, item_size, item_quantity, storage_location_id, item_cost, item_website, item_reorder, user_id, item_category, item_notes, item_quartzy, item_prepurchase, item_msds, ghs_01, ghs_02, ghs_03, ghs_04, ghs_05, ghs_06, ghs_07, ghs_08, ghs_09, user_id))
         conn.commit()
 
         # Show a message dialog to confirm the item has been added
@@ -160,3 +161,16 @@ def add_item_to_db(field_values_txt, field_values_cmb, field_values_chb, field_v
     conn.close()
 
     return dialog_close
+
+
+# Add a new item to the database
+def add_shopping_list_item_to_db(user_id, item_description):
+    # Setup connection
+    conn = get_db_connection(db_info.DB_PATH)
+    cursor = conn.cursor()
+
+    cursor.execute("INSERT INTO ShoppingList (ItemOriginator, ItemDateOriginator, ItemDescription) VALUES (?, CURRENT_TIMESTAMP, ?)", (user_id, item_description))
+    conn.commit()
+
+    # Close the connection
+    conn.close()

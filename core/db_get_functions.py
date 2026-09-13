@@ -71,6 +71,26 @@ def get_user_info_by_username(username):
     return user_info
 
 
+# Get username from the database using user id
+def get_username_by_id(user_id):
+    # Setup connection
+    conn = get_db_connection(db_info.DB_PATH)
+    cursor = conn.cursor()
+
+    # Execute sql command
+    username = cursor.execute("SELECT UserName FROM Users WHERE UserID = ?", (user_id,)).fetchone()
+
+    # Close the connection
+    conn.close()
+
+    # Check if empty result
+    if username is None:
+        msg_dialog = MsgDialog("User Not Found", f"User '{user_id}' not found in the database.", "OK")
+        msg_dialog.exec()
+
+    return username[0]
+
+
 # Get all supplier information from the database using supplier name
 def get_supplier_info_by_name(supplier_name):
     # Setup connection
@@ -468,3 +488,18 @@ def get_all_locations_info():
     conn.close()
 
     return locations_info
+
+
+# Get all shopping list information from the database
+def get_all_shopping_list_items():
+    # Setup connection
+    conn = get_db_connection(db_info.DB_PATH)
+    cursor = conn.cursor()
+
+    # Execute sql command
+    shopping_list_items = cursor.execute("SELECT * FROM ShoppingList").fetchall()
+
+    # Close the connection
+    conn.close()
+
+    return shopping_list_items

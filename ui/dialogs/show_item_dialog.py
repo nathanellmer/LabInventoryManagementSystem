@@ -4,7 +4,7 @@ from ui.custom_widgets.general.form_widgets import FormLabelComboWidgetWide, For
 from ui.custom_widgets.general.header_widgets import FormHeaderWidget
 from ui.custom_widgets.general.footer_widgets import FormFooterWidget
 from ui.custom_widgets.general.button_widgets import MainMenuButton
-from ui.custom_widgets.window_dialog_panels.db_item_widgets import ItemsPanelWidget, ItemsChemicalDisplayPanelWidget, FormLabelCheckBox, PictogramWidget, ReadOnlyItemsPanelWidget
+from ui.custom_widgets.window_dialog_panels.db_item_widgets import ItemsPanelWidget, ItemsChemicalDisplayPanelWidget, FormLabelCheckBox, PictogramWidget, ReadOnlyHazardousItemsChemicalPanelWidget, ReadOnlyItemsPanelWidget, ReadOnlyNonHazardousItemsChemicalPanelWidget
 from core.control_functions import controller
 from core.db_get_functions import get_item_info_by_id, get_supplier_info_by_id, get_storage_location_info_by_id
 
@@ -34,9 +34,17 @@ class ShowItemDialog(QDialog):
         show_item_dialog_layout.addSpacing(10)
 
         # Add the chemical section widget to the show item dialog layout
-        self.chemical_section = ItemsChemicalDisplayPanelWidget("", "")
-        show_item_dialog_layout.addWidget(self.chemical_section)
-        self.chemical_section.hide()
+        self.non_hazardous_chemical_section = ReadOnlyNonHazardousItemsChemicalPanelWidget("", "")
+        show_item_dialog_layout.addWidget(self.non_hazardous_chemical_section)
+        self.non_hazardous_chemical_section.hide()
+
+        # Add spacing
+        show_item_dialog_layout.addSpacing(10)
+
+        # Add the chemical section widget to the show item dialog layout
+        self.hazardouschemical_section = ReadOnlyHazardousItemsChemicalPanelWidget()
+        show_item_dialog_layout.addWidget(self.hazardouschemical_section)
+        self.hazardouschemical_section.hide()
 
         # Add stretch
         show_item_dialog_layout.addStretch()
@@ -84,22 +92,27 @@ class ShowItemDialog(QDialog):
         field.chb.setEnabled(False)
 
         # If the item is a chemical, show the chemical section and populate the chemical information
-        if item_info[12] == "Hazardous Chemical":
-            self.chemical_section.show()
-            self.chemical_flag_1 = True
+        if item_info[12] == "Non-hazardous Chemical":
+            self.non_hazardous_chemical_section.show()
 
+            info_idx = [15, 16]
+            for idx, field in enumerate(self.non_hazardous_chemical_section.findChildren(FormLabelLinkButton)):
+                field.btn.setText(item_info[info_idx[idx]])
+
+        if item_info[12] == "Hazardous Chemical":
+            self.non_hazardous_chemical_section.show()
+            self.hazardous_chemical_section.show()
+            
             info_idx = [14]
             for idx, field in enumerate(self.chemical_section.findChildren(FormLabelTextWidgetExtraWide)):
                 field.txt.setText(item_info[info_idx[idx]])
                 field.txt.setReadOnly(True)
 
             info_idx = [15, 16]
-            for idx, field in enumerate(self.chemical_section.findChildren(FormLabelLinkButton)):
+            for idx, field in enumerate(self.non_hazardous_chemical_section.findChildren(FormLabelLinkButton)):
                 field.btn.setText(item_info[info_idx[idx]])
 
             info_idx = [17, 18, 19, 20, 21, 22, 23, 24, 25]
             for idx, field in enumerate(self.chemical_section.findChildren(PictogramWidget)):
                 field.chb.setChecked(item_info[info_idx[idx]])
                 field.chb.setEnabled(False)
-        else:
-            self.chemical_section.hide()

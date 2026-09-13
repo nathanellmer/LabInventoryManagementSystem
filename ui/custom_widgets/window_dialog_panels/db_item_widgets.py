@@ -337,3 +337,183 @@ class ItemsChemicalDisplayPanelWidget(QWidget):
         filename = self.item_msds.btn.text()
         filepath = db_info.MSDS_PATH + filename
         os.startfile(filepath)
+
+
+class NonHazardousItemsChemicalPanelWidget(QWidget):
+    def __init__(self):
+        super().__init__()
+        # Set form layout
+        form_panel_layout = QVBoxLayout()
+
+        # Add a form label/line edit widget for the new item file names
+        central_layout = QHBoxLayout()
+        central_layout.addStretch()
+        self.item_prepurchase = FormLabelTextWidget("Pre-purchase Filename:")
+        central_layout.addLayout(self.item_prepurchase)
+        central_layout.addSpacing(20)
+        self.item_msds = FormLabelTextWidget("MSDS Filename:")
+        central_layout.addLayout(self.item_msds)
+        central_layout.addStretch()
+        form_panel_layout.addLayout(central_layout)
+
+        # Set the main layout for the widget
+        self.setLayout(form_panel_layout)
+
+
+# Show panel widget for the chemical aspect of items based database information
+class ReadOnlyNonHazardousItemsChemicalPanelWidget(QWidget):
+    def __init__(self, prepurchase_filename:str, msds_filename:str):
+        super().__init__()
+        # Set form layout
+        form_panel_layout = QVBoxLayout()
+
+        # Add a form label/line edit widget for the new item file names
+        central_layout = QHBoxLayout()
+        central_layout.addStretch()
+        self.item_prepurchase = FormLabelLinkButton(prepurchase_filename, self.open_prepurchase_file)
+        central_layout.addLayout(self.item_prepurchase)
+        central_layout.addSpacing(20)
+        self.item_msds = FormLabelLinkButton(msds_filename, self.open_msds_file)
+        central_layout.addLayout(self.item_msds)
+        central_layout.addStretch()
+        form_panel_layout.addLayout(central_layout)
+
+        # Set the main layout for the widget
+        self.setLayout(form_panel_layout)
+
+    
+    def open_prepurchase_file(self):
+        filename = self.item_prepurchase.btn.text()
+        filepath = db_info.PREPURCHASE_PATH + filename
+        os.startfile(filepath)
+
+
+    def open_msds_file(self):
+        filename = self.item_msds.btn.text()
+        filepath = db_info.MSDS_PATH + filename
+        os.startfile(filepath)
+
+
+class HazardousItemsChemicalPanelWidget(QWidget):
+    def __init__(self):
+        super().__init__()
+        # Set form layout
+        form_panel_layout = QVBoxLayout()
+
+        # Add a form label/line edit widget for the new item quartzy reference
+        central_layout = QHBoxLayout()
+        central_layout.addStretch()
+        self.item_quartzy_ref = FormLabelTextWidgetExtraWide("Quartzy Reference:")
+        central_layout.addLayout(self.item_quartzy_ref)
+        central_layout.addStretch()
+        form_panel_layout.addLayout(central_layout)
+
+        # Add spacing
+        form_panel_layout.addSpacing(10)
+
+        # Add a label for the pictogram section
+        lbl_pictogram_section = QLabel("Select the appropriate GHS pictograms for the item:")
+        lbl_pictogram_section.setProperty("role", "std_form_lbl")
+        form_panel_layout.addWidget(lbl_pictogram_section, alignment=Qt.AlignCenter)
+
+        # Add pictograms 
+        pictograms_layout = QHBoxLayout()
+        self.GHS01_pictogram = PictogramWidget(resource_path("assets/ghs_01_explosive.tif"))
+        self.GHS02_pictogram = PictogramWidget(resource_path("assets/ghs_02_flammable.tif"))
+        self.GHS03_pictogram = PictogramWidget(resource_path("assets/ghs_03_oxidiser.tif"))
+        self.GHS04_pictogram = PictogramWidget(resource_path("assets/ghs_04_compressed.tif"))
+        self.GHS05_pictogram = PictogramWidget(resource_path("assets/ghs_05_corrosion.tif"))
+        self.GHS06_pictogram = PictogramWidget(resource_path("assets/ghs_06_toxic.tif"))
+        self.GHS07_pictogram = PictogramWidget(resource_path("assets/ghs_07_irritant.tif"))
+        self.GHS08_pictogram = PictogramWidget(resource_path("assets/ghs_08_health.tif"))
+        self.GHS09_pictogram = PictogramWidget(resource_path("assets/ghs_09_environment.tif"))
+        pictograms_layout.addWidget(self.GHS01_pictogram)
+        pictograms_layout.addWidget(self.GHS02_pictogram)
+        pictograms_layout.addWidget(self.GHS03_pictogram)
+        pictograms_layout.addWidget(self.GHS04_pictogram)
+        pictograms_layout.addWidget(self.GHS05_pictogram)
+        pictograms_layout.addWidget(self.GHS06_pictogram)
+        pictograms_layout.addWidget(self.GHS07_pictogram)
+        pictograms_layout.addWidget(self.GHS08_pictogram)
+        pictograms_layout.addWidget(self.GHS09_pictogram)
+
+        form_panel_layout.addLayout(pictograms_layout)
+
+        # Set the main layout for the widget
+        self.setLayout(form_panel_layout)
+
+
+# Show panel widget for the chemical aspect of items based database information
+class ReadOnlyHazardousItemsChemicalPanelWidget(QWidget):
+    def __init__(self):
+        super().__init__()
+        # Set form layout
+        form_panel_layout = QVBoxLayout()
+
+        # Add a form label/line edit widget for the new item quartzy reference
+        central_layout = QHBoxLayout()
+        central_layout.addStretch()
+        self.item_quartzy_ref = FormLabelTextWidgetExtraWide("Quartzy Reference:")
+        central_layout.addLayout(self.item_quartzy_ref)
+        central_layout.addStretch()
+        form_panel_layout.addLayout(central_layout)
+
+        # Add spacing
+        form_panel_layout.addSpacing(10)
+
+        # Add a label for the pictogram section
+        lbl_pictogram_section = QLabel("Select the appropriate GHS pictograms for the item:")
+        lbl_pictogram_section.setProperty("role", "std_form_lbl")
+        form_panel_layout.addWidget(lbl_pictogram_section, alignment=Qt.AlignCenter)
+
+        # Add pictograms 
+        pictograms_layout = QHBoxLayout()
+        self.GHS01_pictogram = PictogramWidget(resource_path("assets/ghs_01_explosive.tif"))
+        self.GHS02_pictogram = PictogramWidget(resource_path("assets/ghs_02_flammable.tif"))
+        self.GHS03_pictogram = PictogramWidget(resource_path("assets/ghs_03_oxidiser.tif"))
+        self.GHS04_pictogram = PictogramWidget(resource_path("assets/ghs_04_compressed.tif"))
+        self.GHS05_pictogram = PictogramWidget(resource_path("assets/ghs_05_corrosion.tif"))
+        self.GHS06_pictogram = PictogramWidget(resource_path("assets/ghs_06_toxic.tif"))
+        self.GHS07_pictogram = PictogramWidget(resource_path("assets/ghs_07_irritant.tif"))
+        self.GHS08_pictogram = PictogramWidget(resource_path("assets/ghs_08_health.tif"))
+        self.GHS09_pictogram = PictogramWidget(resource_path("assets/ghs_09_environment.tif"))
+        pictograms_layout.addWidget(self.GHS01_pictogram)
+        pictograms_layout.addWidget(self.GHS02_pictogram)
+        pictograms_layout.addWidget(self.GHS03_pictogram)
+        pictograms_layout.addWidget(self.GHS04_pictogram)
+        pictograms_layout.addWidget(self.GHS05_pictogram)
+        pictograms_layout.addWidget(self.GHS06_pictogram)
+        pictograms_layout.addWidget(self.GHS07_pictogram)
+        pictograms_layout.addWidget(self.GHS08_pictogram)
+        pictograms_layout.addWidget(self.GHS09_pictogram)
+
+        form_panel_layout.addLayout(pictograms_layout)
+
+        # Set the main layout for the widget
+        self.setLayout(form_panel_layout)
+
+
+class ReadOnlyItemUpdateInfoWidget(QWidget):
+    def __init__(self):
+        super().__init__()
+        # Set form layout
+        form_panel_layout = QGridLayout()
+
+        # Add a form label/line edit widget for the new item name
+        self.item_originator = FormLabelTextWidgetWide("Item Originator:", read_only=True)
+        form_panel_layout.addLayout(self.item_originator, 0, 0)
+
+        # Add a form label/line edit widget for the new item supplier
+        self.item_updater = FormLabelTextWidgetWide("Item Updater:", read_only=True)
+        form_panel_layout.addLayout(self.item_updater, 1, 0)
+
+        # Add a form label/line edit widget for the new item unit cost
+        self.item_origin_data = FormLabelTextWidgetWide("Origin Date:", read_only=True)
+        form_panel_layout.addLayout(self.item_origin_data, 0, 1)
+
+        # Add a form label/line edit widget for the new item storage location
+        self.item_update_date = FormLabelTextWidgetWide("Updated Date:", read_only=True)
+        form_panel_layout.addLayout(self.item_update_date, 1, 1)
+
+        # Set the main layout for the widget
+        self.setLayout(form_panel_layout)

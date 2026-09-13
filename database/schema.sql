@@ -63,7 +63,20 @@ CREATE TABLE Items (
     ItemGHS7 BOOLEAN NOT NULL DEFAULT FALSE,
     ItemGHS8 BOOLEAN NOT NULL DEFAULT FALSE,
     ItemGHS9 BOOLEAN NOT NULL DEFAULT FALSE,
+    ItemDateOriginator TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    ItemUpdater INTEGER NOT NULL,
+    ItemDateUpdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (ItemSupplier) REFERENCES Suppliers(SupplierID),
     FOREIGN KEY (ItemStorageLocation) REFERENCES StorageLocations(LocationID),
+    FOREIGN KEY (ItemOriginator) REFERENCES Users(UserID),
+    FOREIGN KEY (ItemUpdater) REFERENCES Users(UserID)
+);
+
+-- Shopping list table
+CREATE TABLE ShoppingList (
+    ItemID INTEGER PRIMARY KEY AUTOINCREMENT,
+    ItemOriginator INTEGER NOT NULL,
+    ItemDateOriginator TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    ItemDescription TEXT NOT NULL UNIQUE,
     FOREIGN KEY (ItemOriginator) REFERENCES Users(UserID)
 );
