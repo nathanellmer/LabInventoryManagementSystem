@@ -58,3 +58,14 @@ class MainMenuDropdownPanelWidget(QWidget):
 
         # Set the main layout for the widget
         self.setLayout(panel_layout)
+
+
+# Navbar menu button widgets for the application
+class NavbarMenuButton(QPushButton):
+    def __init__(self, btn_text: str, on_click=None):
+        super().__init__()
+        self.setText(btn_text)
+        self.setProperty("role", "navbar_btn")
+        
+        if on_click:
+            self.clicked.connect(on_click)

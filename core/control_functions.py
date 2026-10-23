@@ -8,6 +8,7 @@ class AppController(QObject):
     close_all_windows = Signal()
     logged_in_user = None
     item_id = None
+    active_page = 1
 
 controller = AppController()
 

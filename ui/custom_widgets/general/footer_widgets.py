@@ -10,7 +10,7 @@ from ui.styles.load_themes import THEMES
 class FooterLabel(QLabel):
     def __init__(self):
         super().__init__()
-        self.setText("Lab Inventory Management System - LIMS v0.5 - Developed by Nathan Ellmer")
+        self.setText("Lab Inventory Management System - LIMS v0.6 - Developed by Nathan Ellmer")
         self.setProperty("role", "universal_footer_lbl")
         self.setAlignment(Qt.AlignCenter)
 
