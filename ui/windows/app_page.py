@@ -2,11 +2,11 @@ from PySide6.QtWidgets import QHBoxLayout, QVBoxLayout, QStackedWidget, QWidget
 from PySide6.QtCore import Qt
 from ui.custom_widgets.general.footer_widgets import FooterLabel
 from ui.custom_widgets.window_dialog_panels.bar_widgets import Navbar, StatusBar
-from core.control_functions import controller
 from ui.windows.database_page import DatabasePage
 from ui.windows.forms_page import FormsPage
 from ui.windows.search_page import SearchPage
 from ui.windows.shopping_list_page import ShoppingListPage
+from core.control_functions import controller
 
 class AppPage(QWidget):
     def __init__(self):
@@ -17,6 +17,7 @@ class AppPage(QWidget):
 
         # Create a top status bar widget
         self.status_bar = StatusBar()
+        self.status_bar.lbl_page_title.setText("Database Page")
         app_page_layout.addWidget(self.status_bar)
 
         # Create a main content area layout
@@ -56,12 +57,16 @@ class AppPage(QWidget):
         # Switch to the appropriate application page based on the active_page value
         if controller.active_page == 1:
             self.app_pages_stack.setCurrentWidget(self.database_page)
+            self.status_bar.lbl_page_title.setText("Database Page")
         elif controller.active_page == 2:
             self.app_pages_stack.setCurrentWidget(self.search_page)
+            self.status_bar.lbl_page_title.setText("Search Page")
         elif controller.active_page == 3:
             self.app_pages_stack.setCurrentWidget(self.shopping_list_page)
+            self.status_bar.lbl_page_title.setText("Shopping List Page")
         elif controller.active_page == 4:
             self.app_pages_stack.setCurrentWidget(self.forms_page)
+            self.status_bar.lbl_page_title.setText("Forms Page")
 
 
 

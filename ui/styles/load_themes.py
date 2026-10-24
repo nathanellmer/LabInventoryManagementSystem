@@ -12,6 +12,7 @@ LIGHT = {
     "universal_btn_background_color_hover": "#242f60",
     "universal_btn_text_color_hover": "#ffffff",
     "universal_btn_link_color": "#0000ff",
+    "navbar_btn_background_color_hover": "#eb6b2d",
     "logo": resource_path("assets/SU_Logo_Light.png"),
 }
 
@@ -26,6 +27,7 @@ DARK = {
     "universal_btn_background_color_hover": "#30cbff",
     "universal_btn_text_color_hover": "#ededed",
     "universal_btn_link_color": "#30cbff",
+    "navbar_btn_background_color_hover": "#eb6b2d",
     "logo": resource_path("assets/SU_Logo_Dark.png"),
 }
 

@@ -6,7 +6,7 @@ from ui.windows.main_application_window import MainApplicationWindow
 from ui.windows.welcome_window import WelcomeWindow
 
 app = QApplication([])
-app.setWindowIcon(QIcon(resource_path("assets/lims_icon.ico")))
+app.setWindowIcon(QIcon(resource_path("assets/lims_icon_new.ico")))
 
 load_all_stylesheets(app)
 

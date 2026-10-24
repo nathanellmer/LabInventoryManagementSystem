@@ -29,4 +29,4 @@ class MainApplicationWindow(QMainWindow):
     def show_app_page(self):
         # Show the main application page and update the status bar with the logged-in user's name
         self.app_stack.setCurrentWidget(self.app_page)
-        self.app_page.status_bar.lbl1.setText(controller.logged_in_user)
+        self.app_page.status_bar.lbl_username.setText(controller.logged_in_user)

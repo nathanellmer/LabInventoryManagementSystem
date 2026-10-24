@@ -95,13 +95,13 @@ QPushButton[role="navbar_btn"] {
     border-radius: 0px;
     font-size: 16px;
     font-weight: bold;
-    min-width: 10px;
+    min-width: 100px;
     max-width: 200px;
     text-align: left;
 }
 
 QPushButton[role="navbar_btn"]::hover {
-    background-color: %(universal_btn_background_color_hover)s;
+    background-color: %(navbar_btn_background_color_hover)s;
     color: %(universal_btn_text_color_hover)s;
     border: 1px solid %(universal_btn_text_color_hover)s;
 }

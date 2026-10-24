@@ -70,4 +70,3 @@ class ShoppingListPanelWidget(QWidget):
             self.shopping_list.addItem(f"{item[3]} - {username} - {item[2]}")
             self.shopping_list_item_ids.append(item[0])
 
-        print(self.shopping_list_item_ids)

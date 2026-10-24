@@ -8,7 +8,7 @@ from ui.dialogs.msg_dialog import MsgDialog
 from ui.dialogs.search_items_dialog import SearchItemDialog
 from ui.dialogs.generate_order_forms_dialog import GenerateOrderFormsDialog
 
-from core.db_get_functions import get_users_db_fieldnames, get_all_users_info, get_suppliers_db_fieldnames, get_all_suppliers_info, get_grant_codes_db_fieldnames, get_all_grant_codes_info, get_locations_db_fieldnames, get_all_locations_info, get_items_db_fieldnames, get_all_items_info
+from core.db_get_functions import get_supplier_info_by_id, get_user_info_by_username, get_username_by_id, get_users_db_fieldnames, get_all_users_info, get_suppliers_db_fieldnames, get_all_suppliers_info, get_grant_codes_db_fieldnames, get_all_grant_codes_info, get_locations_db_fieldnames, get_all_locations_info, get_items_db_fieldnames, get_all_items_info, get_storage_location_info_by_id
 
 # Panel widget for the use database menu
 class UseDBBtnPanelWidget(QWidget):
@@ -23,17 +23,20 @@ class UseDBBtnPanelWidget(QWidget):
         # Add spacing
         panel_layout.addSpacing(5)
 
+        # Set a grid container
+        grid_container = QWidget()
+        grid_container.setMaximumWidth(1500)
+
         # Set the layout for a grid of buttons
-        grid_layout = QGridLayout()
+        grid_layout = QGridLayout(grid_container)
 
         # Set the buttons for the panel
         grid_layout.addWidget(MainMenuButton("Export All Databases", self.export_all_databases), 0, 0, alignment=Qt.AlignCenter)
-        grid_layout.addWidget(MainMenuButton("Search All Items", self.open_search_items_dialog), 0, 1, alignment=Qt.AlignCenter)
-        grid_layout.addWidget(MainMenuButton("Generate Order Form", self.open_generate_order_forms_dialog), 0, 2, alignment=Qt.AlignCenter)
-        grid_layout.addWidget(MainMenuButton("Generate Supplier Form", self.open_generate_blank_supplier_form_dialog), 1, 1, alignment=Qt.AlignCenter)
+        grid_layout.addWidget(MainMenuButton("Generate Order Form", self.open_generate_order_forms_dialog), 0, 1, alignment=Qt.AlignCenter)
+        grid_layout.addWidget(MainMenuButton("Generate Supplier Form", self.open_generate_blank_supplier_form_dialog), 0, 2, alignment=Qt.AlignCenter)
 
         # Add the grid layout to the panel layout
-        panel_layout.addLayout(grid_layout)
+        panel_layout.addWidget(grid_container, alignment=Qt.AlignCenter)
 
         # Set the main layout for the widget
         self.setLayout(panel_layout)
@@ -48,11 +51,6 @@ class UseDBBtnPanelWidget(QWidget):
 
         msg_dialog = MsgDialog("All databases exported", "All databases information exported to CSV files", "OK")
         msg_dialog.exec()
-
-
-    def open_search_items_dialog(self):
-        search_items_dialog = SearchItemDialog()
-        search_items_dialog.exec()
 
 
     def open_generate_order_forms_dialog(self):
@@ -167,6 +165,17 @@ class UseDBBtnPanelWidget(QWidget):
             for item in items_info:
                 row_info = {}
                 for idx, value in enumerate(item[1:len(item)+1]):
+                    if fieldnames[idx] == "ItemSupplier":
+                        values = get_supplier_info_by_id(value)
+                        value = values[1]
+                    elif fieldnames[idx] == "ItemStorageLocation":
+                        values = get_storage_location_info_by_id(value)
+                        value = values[1]
+                    elif fieldnames[idx] == "ItemOriginator":
+                        value = get_username_by_id(value)
+                    elif fieldnames[idx] == "ItemUpdater":
+                        value = get_username_by_id(value)
+                  
                     row_info[fieldnames[idx]] = str(value)
                 writer.writerow(row_info)
 

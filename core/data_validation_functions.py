@@ -37,6 +37,9 @@ def convert_value_item(value, key):
             "ItemGHS7": bool,
             "ItemGHS8": bool,
             "ItemGHS9": bool,
+            "ItemDateOriginator": str,
+            "ItemUpdater": str,
+            "ItemDateUpdated": str,
         }
 
         # Convert the value to the appropriate data type based on the schema

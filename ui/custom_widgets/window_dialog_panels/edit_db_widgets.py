@@ -37,8 +37,12 @@ class EditDBBtnPanelWidget(QWidget):
         # Add spacing
         panel_layout.addSpacing(5)
 
+        # Set a grid container
+        grid_container = QWidget()
+        grid_container.setMaximumWidth(1500)
+
         # Set the layout for a grid of buttons
-        grid_layout = QGridLayout()
+        grid_layout = QGridLayout(grid_container)
 
         # Set the buttons for the panel
         grid_layout.addWidget(MainMenuButton("Add Item", self.open_add_item_dialog), 0, 0, alignment=Qt.AlignCenter)
@@ -49,7 +53,7 @@ class EditDBBtnPanelWidget(QWidget):
         grid_layout.addWidget(MainMenuButton("Delete Supplier", self.open_delete_supplier_dialog), 1, 2, alignment=Qt.AlignCenter)
 
         # Add the grid layout to the panel layout
-        panel_layout.addLayout(grid_layout)
+        panel_layout.addWidget(grid_container, alignment=Qt.AlignCenter)
 
         # Set the main layout for the widget
         self.setLayout(panel_layout)

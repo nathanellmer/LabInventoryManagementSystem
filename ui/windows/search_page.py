@@ -7,20 +7,19 @@ from ui.custom_widgets.general.header_widgets import FormHeaderWidget
 from ui.custom_widgets.general.footer_widgets import FormFooterWidget
 from ui.custom_widgets.general.button_widgets import MainMenuButton, MainMenuLinkButton
 from ui.custom_widgets.general.form_widgets import FormSearchPanelWidget
-from ui.custom_widgets.window_dialog_panels.db_item_widgets import ReadOnlyItemsPanelWidget, ItemsChemicalDisplayPanelWidget, PictogramWidget
+from ui.custom_widgets.window_dialog_panels.db_item_widgets import ReadOnlyItemUpdateInfoWidget, ReadOnlyItemsPanelWidget, ItemsChemicalDisplayPanelWidget, PictogramWidget
 from ui.dialogs.choice_selection_dialog import ChoiceSelectionDialogTwo, ChoiceSelectionDialogFour
 from ui.dialogs.add_grant_codes_dialog import AddGrantCodesDialog
 from core.control_functions import controller, db_info
-from core.db_get_functions import get_item_info_by_name, get_item_info_by_supplier, get_item_info_by_product_code, get_item_info_by_description, get_item_info_by_id, get_supplier_info_by_id, get_storage_location_info_by_id, get_grant_code_info_by_grant_code_name, get_grant_code_info_by_grant_code_owner, get_grant_code_info_by_id, get_user_info_by_username
+from core.db_get_functions import get_item_info_by_name, get_item_info_by_supplier, get_item_info_by_product_code, get_item_info_by_description, get_item_info_by_id, get_supplier_info_by_id, get_storage_location_info_by_id, get_grant_code_info_by_grant_code_name, get_grant_code_info_by_grant_code_owner, get_grant_code_info_by_id, get_user_info_by_username, get_username_by_id
 from core.utility_functions import resource_path
 
 class SearchPage(QWidget):
     def __init__(self):
         super().__init__()
 
-        # Initialise the SearchItemDialog layout and its margins (left, top, right, bottom)
+        # Initialise the SearchItemDialog layout 
         search_item_dialog_layout = QVBoxLayout()
-        # search_item_dialog_layout.setContentsMargins(20, 20, 20, 20)
 
         # Add the header widget to the search item dialog layout
         search_item_dialog_layout.addWidget(FormHeaderWidget("Search Item Information:"))
@@ -38,6 +37,13 @@ class SearchPage(QWidget):
 
         # Add stretch
         search_item_dialog_layout.addStretch()
+
+        # Add the items panel widget to the delete item dialog layout
+        self.item_info = ReadOnlyItemUpdateInfoWidget()
+        search_item_dialog_layout.addWidget(self.item_info, alignment=Qt.AlignCenter)
+
+        # Add spacing
+        search_item_dialog_layout.addSpacing(10)
 
         # Add the items panel widget to the search item dialog layout
         self.item_form = ReadOnlyItemsPanelWidget()
@@ -158,6 +164,15 @@ class SearchPage(QWidget):
             field.chb.setEnabled(False)
 
             self.originator_id = selected_item[11]
+
+            # Populate item info panel
+            originator_username = get_username_by_id(selected_item[11])
+            updater_username = get_username_by_id(selected_item[27])
+
+            item_info_store = [originator_username, selected_item[26], updater_username, selected_item[28]]
+
+            for idx, field in enumerate(self.item_info.findChildren(FormLabelTextWidgetWide)):
+                field.txt.setText(str(item_info_store[idx]))
 
             # If the item is a chemical, show the chemical section and populate the chemical information
             if selected_item[12] == "Hazardous Chemical":

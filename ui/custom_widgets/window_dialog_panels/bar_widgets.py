@@ -4,7 +4,10 @@ from PySide6.QtGui import QPixmap
 from core.utility_functions import resource_path
 from core.control_functions import controller
 from ui.custom_widgets.general.button_widgets import NavbarMenuButton
+from ui.custom_widgets.general.footer_widgets import SULogoLabel
+from ui.custom_widgets.general.header_widgets import LabLogoLabel, TitleLabel
 from ui.custom_widgets.general.label_widgets import InfoLabel
+from datetime import datetime
 
 # Panel widget for the use database menu
 class Navbar(QWidget):
@@ -16,8 +19,7 @@ class Navbar(QWidget):
 
         # Set the layout for the panel
         navbar_layout = QVBoxLayout()
-        navbar_layout.setContentsMargins(0, 0, 0, 0)
-        navbar_layout.setSpacing(0)
+        navbar_layout.setContentsMargins(0, 25, 0, 0)
 
         # Connect button clicks to the signal
         def select_database_page():
@@ -52,6 +54,26 @@ class Navbar(QWidget):
 
         # Set the layout for the panel
         self.setLayout(navbar_layout)
+
+        # Add stretch
+        navbar_layout.addStretch()
+
+        # Setup a layout for the logos
+        logo_layout = QVBoxLayout()
+
+        # Add the lab logo
+        logo_layout.addWidget(LabLogoLabel(), alignment=Qt.AlignmentFlag.AlignHCenter)
+
+        # Add spacing
+        logo_layout.addSpacing(10)
+
+        # Add the university logo
+        logo_layout.addWidget(SULogoLabel(), alignment=Qt.AlignmentFlag.AlignHCenter)
+
+        # Add the logo layout to the main layout
+        navbar_layout.addLayout(logo_layout)
+
+        
         
 
         
@@ -61,10 +83,10 @@ class Navbar(QWidget):
 class LIMSLogoLabel(QLabel):
     def __init__(self):
         super().__init__()
-        pixmap = QPixmap(resource_path("assets/lims_icon.png"))
-        self.setPixmap(pixmap.scaledToWidth(40, Qt.SmoothTransformation))
+        pixmap = QPixmap(resource_path("assets/lims_icon_new.png"))
+        self.setPixmap(pixmap.scaledToWidth(50, Qt.SmoothTransformation))
         self.setAlignment(Qt.AlignCenter)
-        self.setFixedHeight(40)
+        self.setFixedHeight(50)
 
 
 class StatusBar(QWidget):
@@ -79,15 +101,23 @@ class StatusBar(QWidget):
         # Add the logo to the status bar
         status_bar_layout.addWidget(LIMSLogoLabel(), 0, 0, alignment=Qt.AlignLeft)
 
+        # Add a date
+        self.lbl_date = InfoLabel(datetime.now().strftime("%A, %d %B %Y"))
+        status_bar_layout.addWidget(self.lbl_date, 0, 1, alignment=Qt.AlignLeft)
+
+        # Create a label to display the page title
+        self.lbl_page_title = TitleLabel("Page Title")
+        status_bar_layout.addWidget(self.lbl_page_title, 0, 2, alignment=Qt.AlignCenter)
+
         # Create a label to display the status message
-        self.lbl1 = InfoLabel("Username")
-        status_bar_layout.addWidget(self.lbl1, 0, 2, alignment=Qt.AlignRight)
+        self.lbl_username = InfoLabel("Username")
+        status_bar_layout.addWidget(self.lbl_username, 0, 3, alignment=Qt.AlignRight)
 
         # Set the column widths for the status bar layout
         status_bar_layout.setColumnStretch(0, 1) 
-        status_bar_layout.setColumnStretch(1, 6)  
+        status_bar_layout.setColumnStretch(1, 3)  
         status_bar_layout.setColumnStretch(2, 3) 
-
+        status_bar_layout.setColumnStretch(3, 3)
         # Set the layout for the status bar
         self.setLayout(status_bar_layout)
         

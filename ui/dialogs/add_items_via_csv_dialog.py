@@ -7,8 +7,8 @@ from ui.custom_widgets.general.button_widgets import MainMenuButton
 from ui.custom_widgets.window_dialog_panels.csv_interaction_widgets import CSVPanelWidget
 from ui.dialogs.msg_dialog import MsgDialog
 from core.control_functions import controller
-from core.db_add_functions import add_item_to_db
-from core.db_get_functions import get_user_info_by_username, get_supplier_info_by_name, get_storage_location_info_by_name, get_items_db_fieldnames
+from core.db_add_functions import add_item_to_db, add_item_to_db_csv
+from core.db_get_functions import get_supplier_info_by_name, get_user_info_by_username, get_storage_location_info_by_name, get_items_db_fieldnames
 from core.data_validation_functions import validate_csv_data_item
 
 class AddItemsCSVDialog(QDialog):
@@ -96,6 +96,7 @@ class AddItemsCSVDialog(QDialog):
             field_values_chb = []
             field_values_chem_txt = []
             field_values_hazards = []
+            field_values_orig_upd = []
 
             # Populate the field values lists
             for key in item:
@@ -109,14 +110,26 @@ class AddItemsCSVDialog(QDialog):
                     field_values_chem_txt.append(item[key])
                 elif key in ["ItemGHS1", "ItemGHS2", "ItemGHS3", "ItemGHS4", "ItemGHS5", "ItemGHS6", "ItemGHS7", "ItemGHS8", "ItemGHS9"]:
                     field_values_hazards.append(item[key])
+                elif key in ["ItemOriginator", "ItemUpdater"]:
+                    if item[key] == "":
+                        field_values_orig_upd.append("")
+                    else:
+                        user_info = get_user_info_by_username(item[key])
+                        field_values_orig_upd.append(user_info[0])
+                elif key in ["ItemDateOriginator", "ItemDateUpdated"]:
+                    field_values_orig_upd.append(item[key])
 
             # Add the new item to the database
             user_name = controller.logged_in_user
             user_info = get_user_info_by_username(user_name)
             supplier_info = get_supplier_info_by_name(field_values_cmb[0])
             storage_location_info = get_storage_location_info_by_name(field_values_cmb[1])
-            dialog_close = add_item_to_db(field_values_txt, field_values_cmb, field_values_chb, field_values_chem_txt, field_values_hazards, user_info[0], supplier_info[0], storage_location_info[0][0], False)
 
+            if field_values_orig_upd[0] == "" or field_values_orig_upd[2] == "":
+                dialog_close = add_item_to_db(field_values_txt, field_values_cmb, field_values_chb, field_values_chem_txt, field_values_hazards, user_info[0], supplier_info[0], storage_location_info[0][0], False)
+            else:
+                dialog_close = add_item_to_db_csv(field_values_txt, field_values_cmb, field_values_chb, field_values_chem_txt, field_values_hazards, field_values_orig_upd, user_info[0], supplier_info[0], storage_location_info[0][0], False)
+            
             # Close the dialog
             if dialog_close:
                 self.close()

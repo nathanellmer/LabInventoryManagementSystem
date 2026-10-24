@@ -11,9 +11,6 @@ class FormsPage(QWidget):
         # Initialise the FormsPage layout
         forms_page_layout = QVBoxLayout()
 
-        # Add the header widget to the forms page layout
-        forms_page_layout.addWidget(MainMenuHeaderWidget("Forms"))
-
         # Add stretch
         forms_page_layout.addStretch()
 
