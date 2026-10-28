@@ -59,7 +59,7 @@ class UpdateItemDialog(QDialog):
         self.non_hazardous_chemical_section = NonHazardousItemsChemicalPanelWidget()
         upd_item_dialog_layout.addWidget(self.non_hazardous_chemical_section)
         self.non_hazardous_chemical_section.hide()
-        self.chemical_flag = False
+        self.chemical_flag_non = False
 
         # Add spacing
         upd_item_dialog_layout.addSpacing(10)
@@ -68,6 +68,7 @@ class UpdateItemDialog(QDialog):
         self.hazardous_chemical_section = HazardousItemsChemicalPanelWidget()
         upd_item_dialog_layout.addWidget(self.hazardous_chemical_section)
         self.hazardous_chemical_section.hide()
+        self.chemical_flag_haz = False
         self.item_form.item_category.cmb.currentTextChanged.connect(self.toggle_chemical_section)
 
         # Add a proceed button
@@ -157,7 +158,7 @@ class UpdateItemDialog(QDialog):
             originator_username = get_username_by_id(selected_item[11])
             updater_username = get_username_by_id(selected_item[27])
 
-            item_info_store = [originator_username, selected_item[26], updater_username, selected_item[28]]
+            item_info_store = [originator_username, updater_username, selected_item[26], selected_item[28]]
 
             for idx, field in enumerate(self.item_info.findChildren(FormLabelTextWidgetWide)):
                 field.txt.setText(str(item_info_store[idx]))
@@ -188,18 +189,27 @@ class UpdateItemDialog(QDialog):
 
 
     def toggle_chemical_section(self):
+        mandatory_field_indicator = '<span style="color: red;">*</span>'
+
         if self.item_form.item_category.cmb.currentText() == "Hazardous Chemical":
             self.hazardous_chemical_section.show()
             self.non_hazardous_chemical_section.show()
-            self.chemical_flag = True
+            self.non_hazardous_chemical_section.item_prepurchase.lbl.setText("Pre-purchase Filename" + mandatory_field_indicator + ":")
+            self.non_hazardous_chemical_section.item_msds.lbl.setText("MSDS Filename" + mandatory_field_indicator + ":")
+            self.chemical_flag_haz = True
+            self.chemical_flag_non = False
         elif self.item_form.item_category.cmb.currentText() == "Non-hazardous Chemical":
             self.hazardous_chemical_section.hide()
             self.non_hazardous_chemical_section.show()
-            self.chemical_flag = True
+            self.non_hazardous_chemical_section.item_prepurchase.lbl.setText("Pre-purchase Filename:")
+            self.non_hazardous_chemical_section.item_msds.lbl.setText("MSDS Filename:")
+            self.chemical_flag_haz = False
+            self.chemical_flag_non = True
         else:
             self.hazardous_chemical_section.hide()
             self.non_hazardous_chemical_section.hide()
-            self.chemical_flag = False
+            self.chemical_flag_haz = False
+            self.chemical_flag_non = False
 
 
     def btn_proceed(self):
@@ -210,15 +220,20 @@ class UpdateItemDialog(QDialog):
         field_values_chem_txt = []
         field_values_hazards = []
         complete_flag = True
-        compulsory_fields = [True, True, True, True, True, False, True, False]
-        compulsory_dropdowns = ["Select Supplier...", "Select Storage Location...", "Select Category..."]
+        complete_flag_warn = True
+        compulsory_fields_text_wide = [True, True, True, False, True, False, True, False]
+        compulsory_fields_combo_wide = ["Select Supplier...", "Select Storage Location...", "Select Category..."]
 
         # Gather the text data from the form
         for idx, field in enumerate(self.item_form.findChildren(FormLabelTextWidgetWide)):
+            if compulsory_fields_text_wide[idx] and not field.txt.text():
+                complete_flag = False
             field_values_txt.append(field.txt.text())
 
         # Gather the dropdown data from the form
         for idx, field in enumerate(self.item_form.findChildren(FormLabelComboWidgetWide)):
+            if field.cmb.currentText() == compulsory_fields_combo_wide[idx]:
+                complete_flag = False
             field_values_cmb.append(field.cmb.currentText())
 
         # Gather the checkbox data from the form
@@ -226,19 +241,39 @@ class UpdateItemDialog(QDialog):
             field_values_chb.append(field.chb.isChecked())
 
         # Gather chemical data
-        if self.chemical_flag:
+        if self.chemical_flag_haz:
             for field in self.hazardous_chemical_section.findChildren(FormLabelTextWidgetExtraWide):
+                if field.txt.text() == "":
+                    complete_flag_warn = False
                 field_values_chem_txt.append(field.txt.text())
 
             for field in self.non_hazardous_chemical_section.findChildren(FormLabelTextWidget):
+                if field.txt.text() == "":
+                    complete_flag_warn = False
                 field_values_chem_txt.append(field.txt.text())
-            
+
             for field in self.hazardous_chemical_section.findChildren(PictogramWidget):
                 field_values_hazards.append(field.chb.isChecked())
-        else:
+        elif self.chemical_flag_non:
+            field_values_chem_txt.append("")
+
+            for field in self.non_hazardous_chemical_section.findChildren(FormLabelTextWidget):
+                field_values_chem_txt.append(field.txt.text())
+
+            field_values_hazards = [False] * 9
+        else: 
             field_values_chem_txt = [""] * 3
             field_values_hazards = [False] * 9
 
+        # Check if all compulsory fields are complete
+        if not complete_flag:
+            msg_dialog = MsgDialog("Incomplete Fields", "Please complete all compulsory fields before proceeding.", "Ok")
+            msg_dialog.exec()
+            return
+        
+        if not complete_flag_warn:
+            msg_dialog = MsgDialog("Incomplete Chemical Fields", "Form has been submitted, however, please update the item with Quartzy number, pre-purchase form, and MSDS as soon as possible.", "Ok")
+            msg_dialog.exec()
 
         # Add the new item to the database
         user_name = controller.logged_in_user

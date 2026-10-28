@@ -8,8 +8,11 @@ class StorageLocationsPanelWidget(QWidget):
         # Set form layout
         form_panel_layout = QVBoxLayout()
 
+        # Set a mandatory field indicator
+        mandatory_field_indicator = '<span style="color: red;">*</span>'
+
         # Add a form label/line edit widget for the new storage location
-        self.storage_location = FormLabelTextWidgetWide("Storage Location:")
+        self.storage_location = FormLabelTextWidgetWide("Storage Location" + mandatory_field_indicator + ":")
         form_panel_layout.addLayout(self.storage_location)
 
         # Set the main layout for the widget

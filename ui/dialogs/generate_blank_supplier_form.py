@@ -8,6 +8,7 @@ from ui.custom_widgets.general.button_widgets import MainMenuButton, MainMenuLin
 from ui.custom_widgets.general.form_widgets import FormLabelComboWidgetWide, FormSearchPanelWidget, FormLabelTextWidget
 from ui.dialogs.add_grant_codes_dialog import AddGrantCodesDialog
 from ui.dialogs.choice_selection_dialog import ChoiceSelectionDialogTwo, ChoiceSelectionDialogFour
+from ui.dialogs.msg_dialog import MsgDialog
 from ui.dialogs.show_item_dialog import ShowItemDialog
 from core.control_functions import controller, db_info
 from core.db_get_functions import get_all_suppliers,  get_grant_code_info_by_grant_code_name, get_grant_code_info_by_grant_code_owner, get_user_info_by_username, get_grant_code_info_by_id, get_supplier_info_by_name
@@ -160,3 +161,6 @@ class GenerateBlankSupplierFormDialog(QDialog):
         ws[f"H57"] = grant_code_info[2]
 
         wb.save(f"{db_info.SAVE_PATH}Blank_Engineering_Order_Form_{supplier_info[1]}.xlsx")
+
+        msg_dialog = MsgDialog("Blank Order Form Generated", f"Blank order form generated for {supplier_info[1]}", "OK")
+        msg_dialog.exec()

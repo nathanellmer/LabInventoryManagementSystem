@@ -1,7 +1,7 @@
 QLabel[role="std_form_lbl"] {
     color: %(txt_color)s;
     font-size: 16px;
-    min-width: 120px;
+    min-width: 140px;
 }
 
 QLineEdit[role="std_form_txt"] {

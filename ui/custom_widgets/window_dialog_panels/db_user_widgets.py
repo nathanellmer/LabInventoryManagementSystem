@@ -8,8 +8,11 @@ class UserPanelWidget(QWidget):
         # Set form layout
         form_panel_layout = QVBoxLayout()
 
+        # Set a mandatory field indicator
+        mandatory_field_indicator = '<span style="color: red;">*</span>'
+
         # Add a form label/line edit widget for the new username
-        self.username = FormLabelTextWidget("Username:")
+        self.username = FormLabelTextWidget("Username" + mandatory_field_indicator + ":")
         form_panel_layout.addLayout(self.username)
 
         # Add a form label/line edit widget for the email
@@ -17,7 +20,7 @@ class UserPanelWidget(QWidget):
         form_panel_layout.addLayout(self.email)
 
         # Add a form label/line edit widget for the office location
-        self.office_location = FormLabelTextWidget("Office Location:")
+        self.office_location = FormLabelTextWidget("Office Location" + mandatory_field_indicator + ":")
         form_panel_layout.addLayout(self.office_location)
 
         # Set the main layout for the widget

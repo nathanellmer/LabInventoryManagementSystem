@@ -22,11 +22,11 @@ class Navbar(QWidget):
         navbar_layout.setContentsMargins(0, 25, 0, 0)
 
         # Connect button clicks to the signal
-        def select_database_page():
+        def select_search_page():
             controller.active_page = 1
             self.page_selection.emit()
-
-        def select_search_page():
+            
+        def select_database_page():
             controller.active_page = 2
             self.page_selection.emit()
 
@@ -40,8 +40,8 @@ class Navbar(QWidget):
 
         # Create buttons
         navbar_btns = [
-            NavbarMenuButton("Database", select_database_page),
             NavbarMenuButton("Search", select_search_page),
+            NavbarMenuButton("Database", select_database_page),
             NavbarMenuButton("Shopping", select_shopping_page),
             NavbarMenuButton("Forms", select_forms_page)
         ]

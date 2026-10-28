@@ -10,7 +10,7 @@ from ui.styles.load_themes import THEMES
 class FooterLabel(QLabel):
     def __init__(self):
         super().__init__()
-        self.setText("Lab Inventory Management System - LIMS v0.7 - Developed by Nathan Ellmer")
+        self.setText("Lab Inventory Management System - LIMS v0.8 - Developed by Nathan Ellmer")
         self.setProperty("role", "universal_footer_lbl")
         self.setAlignment(Qt.AlignCenter)
 
@@ -50,7 +50,7 @@ class MainMenuFooterWidget(QWidget):
         footer_layout.addWidget(SULogoLabel())
 
         # Add the close button to the footer layout
-        footer_layout.addWidget(CloseButton(), alignment=Qt.AlignCenter)
+        # footer_layout.addWidget(CloseButton(), alignment=Qt.AlignCenter)
 
         # Add the title label to the footer layout
         footer_layout.addWidget(FooterLabel())
@@ -68,7 +68,7 @@ class FormFooterWidget(QWidget):
         footer_layout = QVBoxLayout()
 
         # Add the close button to the footer layout
-        footer_layout.addWidget(CloseButton(), alignment=Qt.AlignCenter)
+        # footer_layout.addWidget(CloseButton(), alignment=Qt.AlignCenter)
 
         # Set the main layout for the widget
         self.setLayout(footer_layout)

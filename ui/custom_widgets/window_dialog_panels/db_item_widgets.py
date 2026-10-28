@@ -17,12 +17,15 @@ class ItemsPanelWidget(QWidget):
         # Set form layout
         form_panel_layout = QGridLayout()
 
+        # Set a mandatory field indicator
+        mandatory_field_indicator = '<span style="color: red;">*</span>'
+
         # Add a form label/line edit widget for the new item name
-        self.item_name = FormLabelTextWidgetWide("Name:")
+        self.item_name = FormLabelTextWidgetWide("Name" + mandatory_field_indicator + ":")
         form_panel_layout.addLayout(self.item_name, 0, 0)
 
         # Add a form label/line edit widget for the new item supplier
-        self.item_supplier = FormLabelComboWidgetWide("Supplier:")
+        self.item_supplier = FormLabelComboWidgetWide("Supplier" + mandatory_field_indicator + ":")
         self.load_suppliers()
         form_panel_layout.addLayout(self.item_supplier, 1, 0)
 
@@ -31,11 +34,11 @@ class ItemsPanelWidget(QWidget):
         form_panel_layout.addLayout(self.btn_missing_supplier, 2, 0, alignment=Qt.AlignLeft)
 
         # Add a form label/line edit widget for the new item product number
-        self.item_product_number = FormLabelTextWidgetWide("Product Number:")
+        self.item_product_number = FormLabelTextWidgetWide("Product Number" + mandatory_field_indicator + ":")
         form_panel_layout.addLayout(self.item_product_number, 3, 0)
 
         # Add a form label/line edit widget for the new item description
-        self.item_description = FormLabelTextWidgetWide("Description:")
+        self.item_description = FormLabelTextWidgetWide("Description" + mandatory_field_indicator + ":")
         form_panel_layout.addLayout(self.item_description, 4, 0)
 
         # Add a form label/line edit widget for the new item size
@@ -43,7 +46,7 @@ class ItemsPanelWidget(QWidget):
         form_panel_layout.addLayout(self.item_size, 5, 0)
 
         # Add a form label/line edit widget for the new item quantity
-        self.item_quantity = FormLabelTextWidgetWide("Quantity:")
+        self.item_quantity = FormLabelTextWidgetWide("Quantity" + mandatory_field_indicator + ":")
         form_panel_layout.addLayout(self.item_quantity, 6, 0)
 
         # Add a form label/line edit widget for the new item unit cost
@@ -51,7 +54,7 @@ class ItemsPanelWidget(QWidget):
         form_panel_layout.addLayout(self.item_unit_cost, 0, 1)
 
         # Add a form label/line edit widget for the new item storage location
-        self.item_storage_location = FormLabelComboWidgetWide("Storage Location:")
+        self.item_storage_location = FormLabelComboWidgetWide("Storage Location" + mandatory_field_indicator + ":")
         self.load_storage_locations()
         form_panel_layout.addLayout(self.item_storage_location, 1, 1)
 
@@ -60,7 +63,7 @@ class ItemsPanelWidget(QWidget):
         form_panel_layout.addLayout(self.btn_missing_storage_location, 2, 1, alignment=Qt.AlignLeft)
 
         # Add a form label/line edit widget for the new item website
-        self.item_website = FormLabelTextWidgetWide("Website:")
+        self.item_website = FormLabelTextWidgetWide("Website" + mandatory_field_indicator + ":")
         form_panel_layout.addLayout(self.item_website, 3, 1)
 
         # Add a checkbox widget for the new item reorder flag
@@ -68,7 +71,7 @@ class ItemsPanelWidget(QWidget):
         form_panel_layout.addLayout(self.item_reorder_flag, 4, 1, alignment=Qt.AlignLeft)
 
         # Add item category 
-        self.item_category = FormLabelComboWidgetWide("Category:")
+        self.item_category = FormLabelComboWidgetWide("Category" + mandatory_field_indicator + ":")
         self.item_category.cmb.addItems(["Select Category...", "Consumable", "Equipment", "Non-hazardous Chemical", "Hazardous Chemical"])
         form_panel_layout.addLayout(self.item_category, 5, 1)
 
@@ -400,10 +403,13 @@ class HazardousItemsChemicalPanelWidget(QWidget):
         # Set form layout
         form_panel_layout = QVBoxLayout()
 
+        # Set a mandatory field indicator
+        mandatory_field_indicator = '<span style="color: red;">*</span>'
+
         # Add a form label/line edit widget for the new item quartzy reference
         central_layout = QHBoxLayout()
         central_layout.addStretch()
-        self.item_quartzy_ref = FormLabelTextWidgetExtraWide("Quartzy Reference:")
+        self.item_quartzy_ref = FormLabelTextWidgetExtraWide("Quartzy Reference" + mandatory_field_indicator + ":")
         central_layout.addLayout(self.item_quartzy_ref)
         central_layout.addStretch()
         form_panel_layout.addLayout(central_layout)

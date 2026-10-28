@@ -154,7 +154,7 @@ class DeleteItemDialog(QDialog):
             originator_username = get_username_by_id(selected_item[11])
             updater_username = get_username_by_id(selected_item[27])
 
-            item_info_store = [originator_username, selected_item[26], updater_username, selected_item[28]]
+            item_info_store = [originator_username, updater_username, selected_item[26], selected_item[28]]
 
             for idx, field in enumerate(self.item_info.findChildren(FormLabelTextWidgetWide)):
                 field.txt.setText(str(item_info_store[idx]))

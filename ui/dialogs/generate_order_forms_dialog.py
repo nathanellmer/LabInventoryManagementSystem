@@ -8,6 +8,7 @@ from ui.custom_widgets.general.button_widgets import MainMenuButton, MainMenuLin
 from ui.custom_widgets.general.form_widgets import FormSearchPanelWidget, FormLabelTextWidget
 from ui.dialogs.add_grant_codes_dialog import AddGrantCodesDialog
 from ui.dialogs.choice_selection_dialog import ChoiceSelectionDialogTwo, ChoiceSelectionDialogFour
+from ui.dialogs.msg_dialog import MsgDialog
 from ui.dialogs.show_item_dialog import ShowItemDialog
 from core.control_functions import controller, db_info
 from core.db_get_functions import get_item_info_by_product_code, get_item_info_by_supplier, get_item_info_by_description, get_item_info_by_name, get_items_info_by_reorder_flag, get_supplier_info_by_id, get_storage_location_info_by_id, get_grant_code_info_by_grant_code_name, get_grant_code_info_by_grant_code_owner, get_item_info_by_id, get_user_info_by_username, get_grant_code_info_by_id
@@ -212,8 +213,6 @@ class GenerateOrderFormsDialog(QDialog):
                     group += 1
                     grouped_item_ids.append([sorted_item_ids[i]])
                     grouped_supplier_ids.append(sorted_supplier_list[i])
-
-        print(grouped_supplier_ids)
         
         for idx, item_ids_group in enumerate(grouped_item_ids):
             self.populate_order_form(item_ids_group, grouped_supplier_ids[idx])
@@ -266,3 +265,7 @@ class GenerateOrderFormsDialog(QDialog):
             ws[f"H{row}"] = item_info[8]
 
         wb.save(f"{db_info.SAVE_PATH}Engineering_Order_Form_{supplier_info[1]}.xlsx")
+
+        msg_dialog = MsgDialog("Order Form Generated", f"Order form generated for the items from {supplier_info[1]}", "OK")
+        msg_dialog.exec()
+

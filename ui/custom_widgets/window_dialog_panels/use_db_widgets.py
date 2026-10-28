@@ -7,7 +7,7 @@ from ui.dialogs.generate_blank_supplier_form import GenerateBlankSupplierFormDia
 from ui.dialogs.msg_dialog import MsgDialog
 from ui.dialogs.search_items_dialog import SearchItemDialog
 from ui.dialogs.generate_order_forms_dialog import GenerateOrderFormsDialog
-
+from core.control_functions import db_info
 from core.db_get_functions import get_supplier_info_by_id, get_user_info_by_username, get_username_by_id, get_users_db_fieldnames, get_all_users_info, get_suppliers_db_fieldnames, get_all_suppliers_info, get_grant_codes_db_fieldnames, get_all_grant_codes_info, get_locations_db_fieldnames, get_all_locations_info, get_items_db_fieldnames, get_all_items_info, get_storage_location_info_by_id
 
 # Panel widget for the use database menu
@@ -71,7 +71,7 @@ class UseDBBtnPanelWidget(QWidget):
         users_info = get_all_users_info()
 
         # Export the users information to a CSV file
-        with open('users_info.csv', mode='w', newline='') as csv_file:
+        with open(f'{db_info.SAVE_PATH}users_info.csv', mode='w', newline='') as csv_file:
             writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
             writer.writeheader()
             for user in users_info:
@@ -93,7 +93,7 @@ class UseDBBtnPanelWidget(QWidget):
         suppliers_info = get_all_suppliers_info()
 
         # Export the suppliers information to a CSV file
-        with open('suppliers_info.csv', mode='w', newline='') as csv_file:
+        with open(f'{db_info.SAVE_PATH}suppliers_info.csv', mode='w', newline='') as csv_file:
             writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
             writer.writeheader()
             for supplier in suppliers_info:
@@ -115,7 +115,7 @@ class UseDBBtnPanelWidget(QWidget):
         grant_codes_info = get_all_grant_codes_info()
 
         # Export the grant codes information to a CSV file
-        with open('grant_codes_info.csv', mode='w', newline='') as csv_file:
+        with open(f'{db_info.SAVE_PATH}grant_codes_info.csv', mode='w', newline='') as csv_file:
             writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
             writer.writeheader()
             for grant_code in grant_codes_info:
@@ -137,7 +137,7 @@ class UseDBBtnPanelWidget(QWidget):
         storage_locations_info = get_all_locations_info()
 
         # Export the storage locations information to a CSV file
-        with open('storage_locations_info.csv', mode='w', newline='') as csv_file:
+        with open(f'{db_info.SAVE_PATH}storage_locations_info.csv', mode='w', newline='') as csv_file:
             writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
             writer.writeheader()
             for storage_location in storage_locations_info:
@@ -159,7 +159,7 @@ class UseDBBtnPanelWidget(QWidget):
         items_info = get_all_items_info()
 
         # Export the items information to a CSV file
-        with open('items_info.csv', mode='w', newline='') as csv_file:
+        with open(f'{db_info.SAVE_PATH}items_info.csv', mode='w', newline='') as csv_file:
             writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
             writer.writeheader()
             for item in items_info:
@@ -227,7 +227,7 @@ class UseDBDropdownWidget(QWidget):
         users_info = get_all_users_info()
 
         # Export the users information to a CSV file
-        with open('users_info.csv', mode='w', newline='') as csv_file:
+        with open(f'{db_info.SAVE_PATH}users_info.csv', mode='w', newline='') as csv_file:
             writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
             writer.writeheader()
             for user in users_info:
@@ -249,7 +249,7 @@ class UseDBDropdownWidget(QWidget):
         suppliers_info = get_all_suppliers_info()
 
         # Export the suppliers information to a CSV file
-        with open('suppliers_info.csv', mode='w', newline='') as csv_file:
+        with open(f'{db_info.SAVE_PATH}suppliers_info.csv', mode='w', newline='') as csv_file:
             writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
             writer.writeheader()
             for supplier in suppliers_info:
@@ -271,7 +271,7 @@ class UseDBDropdownWidget(QWidget):
         grant_codes_info = get_all_grant_codes_info()
 
         # Export the grant codes information to a CSV file
-        with open('grant_codes_info.csv', mode='w', newline='') as csv_file:
+        with open(f'{db_info.SAVE_PATH}grant_codes_info.csv', mode='w', newline='') as csv_file:
             writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
             writer.writeheader()
             for grant_code in grant_codes_info:
@@ -293,7 +293,7 @@ class UseDBDropdownWidget(QWidget):
         storage_locations_info = get_all_locations_info()
 
         # Export the storage locations information to a CSV file
-        with open('storage_locations_info.csv', mode='w', newline='') as csv_file:
+        with open(f'{db_info.SAVE_PATH}storage_locations_info.csv', mode='w', newline='') as csv_file:
             writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
             writer.writeheader()
             for storage_location in storage_locations_info:
@@ -315,7 +315,7 @@ class UseDBDropdownWidget(QWidget):
         items_info = get_all_items_info()
 
         # Export the items information to a CSV file
-        with open('items_info.csv', mode='w', newline='') as csv_file:
+        with open(f'{db_info.SAVE_PATH}items_info.csv', mode='w', newline='') as csv_file:
             writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
             writer.writeheader()
             for item in items_info:

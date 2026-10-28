@@ -17,7 +17,7 @@ class AppPage(QWidget):
 
         # Create a top status bar widget
         self.status_bar = StatusBar()
-        self.status_bar.lbl_page_title.setText("Database Page")
+        self.status_bar.lbl_page_title.setText("Search Page")
         app_page_layout.addWidget(self.status_bar)
 
         # Create a main content area layout
@@ -41,10 +41,10 @@ class AppPage(QWidget):
         self.setLayout(app_page_layout)
 
         # Add the application pages to the stacked widget
-        self.database_page = DatabasePage()
-        self.app_pages_stack.addWidget(self.database_page)
         self.search_page = SearchPage()  
         self.app_pages_stack.addWidget(self.search_page)
+        self.database_page = DatabasePage()
+        self.app_pages_stack.addWidget(self.database_page)
         self.shopping_list_page = ShoppingListPage()  
         self.app_pages_stack.addWidget(self.shopping_list_page)
         self.forms_page = FormsPage()  # Placeholder for the forms page
@@ -55,10 +55,10 @@ class AppPage(QWidget):
 
     def show_app_page(self):
         # Switch to the appropriate application page based on the active_page value
-        if controller.active_page == 1:
+        if controller.active_page == 2:
             self.app_pages_stack.setCurrentWidget(self.database_page)
             self.status_bar.lbl_page_title.setText("Database Page")
-        elif controller.active_page == 2:
+        elif controller.active_page == 1:
             self.app_pages_stack.setCurrentWidget(self.search_page)
             self.status_bar.lbl_page_title.setText("Search Page")
         elif controller.active_page == 3:
